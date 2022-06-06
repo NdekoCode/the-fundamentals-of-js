@@ -7,6 +7,8 @@ Dans le JS moderne on declare une variable de deux maniere
 - avec le mot clé `const` suivis du nom de la variable ou
 - vec le mot clé `let` suivis du nom de la variable
 
+Une variable déclarée grâce à l'instruction `var` ou `let` sans valeur initiale définie vaudra `undefined`
+
 ## Types de donnée
 
 JavaScript est un langage dont le typage est faible et dynamique.
@@ -63,8 +65,11 @@ Un symbole est une valeur primitive unique et immuable pouvant être utilisée c
 
 ## Les objets
 
-un objet est une valeur conservée en mémoire à laquelle on fait référence grâce à un identifiant.
-les objets peuvent être considérés comme des collections de propriétés.
+un objet est une valeur conservée en mémoire à laquelle on fait référence grâce à un `identifiant`.
+En JS les objets peuvent être considérés comme des collections de propriétés.
+
+Les valeurs des propriétés peuvent être de n'importe quel type, y compris des objets. Cela permet de construire des structures de données complexes.
+Les propriétés sont identifiées grâce à une « clé ». Une clé peut être une chaîne de caractères ou un symbole.
 
 ## Les operateurs des données
 
