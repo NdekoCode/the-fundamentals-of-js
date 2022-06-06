@@ -65,11 +65,22 @@ Un symbole est une valeur primitive unique et immuable pouvant être utilisée c
 
 ## Les objets
 
+Un objet JavaScript est un ensemble de correspondances entre des clés et des valeurs.
 un objet est une valeur conservée en mémoire à laquelle on fait référence grâce à un `identifiant`.
 En JS les objets peuvent être considérés comme des collections de propriétés.
 
 Les valeurs des propriétés peuvent être de n'importe quel type, y compris des objets. Cela permet de construire des structures de données complexes.
 Les propriétés sont identifiées grâce à une « clé ». Une clé peut être une chaîne de caractères ou un symbole.
+
+On a par exemple l'objet suivant
+
+```{JS}
+const student = {
+  "firstname":"Arick",
+  "lastname":"Bulakali"
+}
+
+```
 
 ## Les operateurs des données
 
@@ -147,4 +158,135 @@ Par exemple:
 Les boucles permettent de répéter plusieurs fois une action dans notre code.
 Il y a plusieurs differentes instructions qu'il est possible d'utiliser en JavaScript pour effectuer des itérations ou des repetitions.
 Par exemple, en JavaScript, on pourrait traduire « Je ne derangerer plus en classse » plusieurs fois avec une boucle.
-Les instructions permettant
+En JS on a plusieurs types de boucles qui sont un peu semblables dans les autres languages comme nattament :
+
+### la boucle `for`
+
+Une boucle for répète des instructions jusqu'à ce qu'une condition donnée ne soit plus vérifiée.
+
+```{JS}
+for (let i = 0; Conditions; i++) { 
+  Instructions
+  }
+```
+
+### la boucle `do...while`
+
+permet de répéter un ensemble d'instructions jusqu'à ce qu'une condition donnée ne soit plus vérifiée.
+
+```{JS}
+do{
+
+  Instruction
+  // `Instruction` est exécutée au moins une fois avant que la condition soit vérifiée.
+}
+while (condition);
+```
+
+### la boucle `while`
+
+ permet d'exécuter une instruction tant qu'une condition donnée est vérifiée.
+
+```{JS}
+while (condition){
+
+  instruction
+  // Si la condition n'est pas vérifiée, l'instruction `instruction` n'est pas exécutée 
+}
+while (true) {
+  console.log("Coucou monde !");// Sera executer quoi qu'il arrive
+}
+```
+
+Le test de la condition s'effectue avant d'exécuter `instruction`. Si la condition renvoie `true (ou une valeur équivalente)`, `instruction` sera exécutée et la condition sera testée à nouveau. Si la condition renvoie `false (ou une valeur équivalente)`, l'exécution s'arrête et le contrôle est passé à l'instruction qui suit `while`.
+
+### label
+
+ Un label (ou étiquette) permet de fournir un identifiant pour une instruction afin d'y faire référence depuis un autre endroit dans le programme.
+On utilise un label de la façon suivante :
+
+```{JS}
+label:
+  instruction // peut être N'importe quel identifiant JavaScript qui n'est pas un mot-clé réservé.
+```
+
+### `for...in`
+
+L'instruction `for...in` permet d'itérer sur l'ensemble des propriétés énumérables d'un objet.
+
+```{JS}
+for (variable in objet) {
+  // Variable correspond à la clé d'un objet ou à l'indice d'un tableau
+  instruction 
+}
+```
+
+### `for...of`
+
+`for...of` crée une boucle qui fonctionne avec `les objets itérables` (qui incluent `Array`, `Map`, `Set`, l'objet `arguments`, etc.). La boucle parcourt l'objet et les valeurs de ses différentes propriétés.
+
+```{JS}
+for (variable of objet) {
+  // Variable correspond à la Valeur de la clé d'un objet ou la valeur de l'indice d'un tableau
+  instruction
+}
+```
+
+Avec les boucles on utilise souvent les instructions `break` et `continue`
+
+- `break`:L'instruction break est utilisée pour finir l'exécution d'une boucle, d'une instruction `switch`, ou avec un `label` ou avec un `for`.
+Lorsque break est utilisé avec un label, il provoque la fin de l'instruction correspondante.
+La syntaxe de cette instruction possède donc deux formes :
+
+- `break;`  permet d'interrompre la boucle la plus imbriquée (ou le switch) dans laquelle on se trouve
+- `break label;` Interrompt l'exécution d'une instruction identifiée par un label.
+
+```{JS}
+for (i = 0; i < a.length; i++) {
+  if (a[i] === valeurTest) {
+    break;
+  }
+}
+```
+
+- `continue`:L'instruction continue permet de reprendre une boucle while, do-while, for, ou une instruction label.
+L'instruction continue s'utilise donc de la façon suivante :
+
+- `continue;`: Lorsque continue est utilisé sans label, l'itération courante de la boucle (celle la plus imbriquée) est terminée et la boucle passe à l'exécution de la prochaine itération.
+- `continue label;` Lorsque continue est utilisé avec un label, il est appliqué à l'instruction de boucle correspondante.
+
+À la différence de l'instruction break, continue ne stoppe pas entièrement l'exécution de la boucle. Si elle est utilisée dans une boucle while, l'itération reprend au niveau de la condition d'arrêt. Dans une boucle for, l'itération reprend au niveau de l'expression d'incrément pour la boucle.
+
+```{JS}
+let i = 0;
+let n = 0;
+while (i < 5) {
+  i++;
+  if (i === 3) {
+    continue;
+  }
+  n += i;
+  console.log(n);
+}
+```
+
+```{JS}
+let i = 0;
+let j = 8;
+
+vérifIetJ: while (i < 4) {
+  console.log("i : " + i);
+  i += 1;
+
+  vérifJ: while (j > 4) {
+    console.log("j : "+ j);
+    j -= 1;
+    if ((j % 2) === 0){
+      continue vérifJ;
+    }
+    console.log(j + " est impaire.");
+   }
+   console.log("i = " + i);
+   console.log("j = " + j);
+}
+```
