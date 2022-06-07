@@ -290,3 +290,178 @@ vérifIetJ: while (i < 4) {
    console.log("j = " + j);
 }
 ```
+
+## Fonctions
+
+Une fonction est un ensemble d'instructions effectuant une tâche ou calculant une valeur.
+
+De manière générale, une fonction est un « sous-programme » qui peut être appelé par du code extérieur à la fonction (ou du code interne dans le cas d'une récursion). Comme le programme, une fonction est composée d'une suite d'instructions qui forment le corps de la fonction. Il est parfois possible de passer des valeurs à une fonction et une fonction peut éventuellement retourner (ou renvoyer) une valeur.
+
+Pour d'utiliser une fonction, il est nécessaire de l'avoir auparavant définie au sein de la portée dans laquelle on souhaite l'appeler.
+
+### Les déclarations de fonctions
+
+Une définition de fonction dou éclaration de fonction est construite avec le mot-clé `function`, suivi par :
+
+- Le nom de la fonction.
+- Une liste d'arguments à passer à la fonction, entre parenthèses et séparés par des virgules.
+- Les instructions JavaScript définissant la fonction, entre accolades, { }.
+
+par exemple, définit une fonction intitulée carrer :
+
+```{JS}
+function carrer(nombre) {
+  return nombre * nombre;
+}
+```
+
+NB: Les paramètres primitifs (comme les nombres) sont passés à la fonction par valeur. La valeur est passée à la fonction mais si cette dernière change la valeur du paramètre, cela n'aura pas d'impact au niveau global ou au niveau de ce qui a appelé la fonction.
+Si l'argument passé à la fonction est un objet (une valeur non-primitive, comme un objet Array ou un objet défini par l'utilisateur), et que la fonction change les propriétés de cet objet, ces changements seront visibles en dehors de la fonction.
+Par exemple :
+
+```{JS}
+function maFonction(monObjet) {
+  monObjet.fabricant = "Toyota";
+}
+
+let mavoiture = {fabricant: "Honda", modèle: "Accord", année: 1998};
+let x, y;
+
+x = mavoiture.fabricant;     // x aura la valeur "Honda"
+
+maFonction(mavoiture);
+y = mavoiture.fabricant; // y aura la valeur "Toyota"
+                         // (la propriété fabricant a été modifiée par la fonction)
+```
+
+### Appeler des fonctions
+
+La seule définition d'une fonction ne permet pas d'exécuter la fonction.
+Appeler la fonction permet d'effectuer les actions des instructions avec les paramètres indiqués. Par exemple, si on définit la fonction carré, on peut l'appeler de la façon suivante :`carré(5);`
+La portée d'une fonction est la fonction dans laquelle elle est déclarée ou le programme entier si elle est déclarée au niveau le plus haut.
+
+Les arguments d'une fonction ne sont pas limités aux chaînes de caractères et aux nombres. Il est possible de passer des objets.
+Une fonction peut être récursive, c'est-à-dire qu'elle peut s'appeler elle-même.
+
+```{JS}
+function factorielle(n){
+  if ((n === 0) || (n === 1))
+    return 1;
+  else
+    return (n * factorielle(n - 1));
+}
+```
+
+### Portée d'une fonction
+
+On ne peut pas accéder aux variables définies dans une fonction en dehors de cette fonction : ces variables n'existent que dans la portée de la fonction. En revanche, une fonction peut accéder aux différentes variables et fonctions qui appartiennent à la portée dans laquelle elle est définie. Une fonction définie dans une autre fonction peut également accéder à toutes les variables de la fonction « parente » et à toute autre variable accessible depuis la fonction « parente ».
+
+```{JS}
+// Les variables suivantes sont globales
+lrt num1 = 20,
+    num2 = 3,
+    nom = "Licorne";
+
+// Cette fonction est définie dans la portée globale
+function multiplier() {
+  return num1 * num2;
+}
+
+multiplier(); // Renvoie 60
+
+// Un exemple de fonction imbriquée
+function getScore () {
+  let num1 = 2,
+      num2 = 3;
+
+  function ajoute() {
+    return nom + " a marqué " + (num1 + num2);
+  }
+
+  return ajoute();
+}
+
+getScore(); // Renvoie "Licorne a marqué 5"
+Copy to Clipboard
+```
+
+Une fonction qui s'appelle elle-même est appelée une fonction récursive. Sous certains aspects, une récursion est semblable à une boucle : toutes les deux exécutent le même code plusieurs fois et toutes les deux requièrent une condition d'arrêt (pour éviter une boucle ou une récursion infinie).
+
+Par exemple cette fonction factorielle
+
+```{JS}
+function factorielle(n){
+  if ((n === 0) || (n === 1))
+    return 1;
+  else
+    return (n * factorielle(n - 1));
+}
+factorielle(());
+```
+
+### Fonctions imbriquées et fermetures
+
+Il est possible d'imbriquer une fonction dans une autre fonction. La portée de la fonction fille (celle qui est imbriquée) n'est pas contenue dans la portée de la fonction parente. En revanche, la fonction fille bénéficie bien des informations de la fonction parente grâce à sa portée. On a ce qu'on appelle une fermeture (closure en anglais).
+Une fonction imbriquée étant une fermeture, cela signifie qu'une fonction imbriquée peut en quelque sorte hériter des arguments et des variables de la fonction parente.
+En résumé :
+
+> La fonction imbriquée ne peut être utilisée qu'à partir des instructions de la fonction parente.La fonction imbriquée forme une fermeture : elle peut utiliser les arguments et les variables de la fonction parente. En revanche, la fonction parente ne peut pas utiliser les arguments et les variables de la fonction fille.
+
+```{JS}
+function ajouteCarrés(a, b) {
+  function carré(x) {
+    return x * x;
+  }
+  return carré(a) + carré(b);
+}
+a = ajouteCarrés(2,3); // renvoie 13
+b = ajouteCarrés(3,4); // renvoie 25
+c = ajouteCarrés(4,5); // renvoie 41
+
+// Donc
+function parente(x) {
+  function fille(y) {
+    return x + y;
+  }
+  return fille;
+}
+fn_fille = parente(3); // Fournit une fonction qui ajoute 3 à ce qu'on lui donnera
+résultat = fn_fille(5); // renvoie 8
+
+résultat1 = parente(3)(5); // renvoie 8
+Copy to Clipboard
+
+```
+
+### Utiliser l'objet `arguments`
+
+Les arguments d'une fonction sont maintenus dans un objet semblable à un tableau. Dans une fonction, il est possible d'utiliser les arguments passés à la fonction de la façon suivante :
+
+`arguments[i]`
+où `i` représente l'index ordinal de l'argument (le premier argument ayant un indice à 0). On accède donc au premier argument avec `arguments[0]`. Le nombre total d'arguments est fourni grâce à `arguments.length`.
+La propriété `arguments.length`permet de déterminer le nombre d'arguments réellement passés à la fonction.
+`arguments` ce n'est pas un tableau au sens strict.
+il possède un index numéroté ainsi qu'une propriété length. En revanche, il ne possède pas les méthodes classiques de manipulation des tableaux (Array).
+
+### Paramètres des fonctions
+
+À partir d'ECMAScript 2015, deux sortes de paramètres sont introduites :
+
+- Les paramètres par défaut et
+- Les paramètres du reste.
+
+#### Les paramètres par défaut
+
+En JS, par défaut, les paramètres des fonctions vaudront `undefined`
+Il peut toutefois être utile de définir une valeur par défaut
+
+```{JS}
+function multiplier(a, b = 1) {
+  return a*b;
+}
+
+multiplier(5); // 5
+Copy to Clipboard
+```
+
+#### Les paramètres du reste
