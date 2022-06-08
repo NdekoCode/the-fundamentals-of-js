@@ -65,10 +65,17 @@ Un symbole est une valeur primitive unique et immuable pouvant être utilisée c
 
 ## Les objets
 
-Un objet JavaScript est un ensemble de correspondances entre des clés et des valeurs.
+Un objet JavaScript est un ensemble de correspondances entre des clés et des valeurs ou indice valeur
 un objet est une valeur conservée en mémoire à laquelle on fait référence grâce à un `identifiant`.
-En JS les objets peuvent être considérés comme des collections de propriétés.
+On en distingue souvent deux:
 
+- Les objets proprement dite et
+- Les tableau (`Array`)
+
+### Les objets proprement dite
+
+En JS les objets peuvent être considérés comme des collections de propriétés.
+Les objets preprements dite on puex y faire reference par `indice` ou par clé
 Les valeurs des propriétés peuvent être de n'importe quel type, y compris des objets. Cela permet de construire des structures de données complexes.
 Les propriétés sont identifiées grâce à une « clé ». Une clé peut être une chaîne de caractères ou un symbole.
 
@@ -80,6 +87,35 @@ const student = {
   "lastname":"Bulakali"
 }
 
+```
+
+### Les tableaux (Array)
+
+L'objet global Array est utilisé pour créer des tableaux. Les tableaux sont des objets de haut-niveau semblables à des listes.
+Les tableaux ne peuvent pas utiliser de chaînes de caractères comme indices pour les éléments (à la façon des `tableaux associatifs`(Objet proprement dite)) mais doivent utiliser des entier
+Pour définir une valeur ou tenter d'accéder à une valeur du table on utilise `la notation entre crochet`, pour déterminer la taille d'un tableau on utilise la proprieter `length` sur le tableau dont on souhaite savoir
+Exemple:
+
+```{JS}
+ let fruits = ['Apple', 'Banana'];
+ 
+console.log(fruits.length);// 2
+
+let first = fruits[0];// Apple
+
+let last = fruits[fruits.length - 1];// Banana
+ 
+ ```
+
+#### Opérations fréquentes
+
+- **Créer un tableau** `let fruits = ['Apple', 'Banana'];`
+- Boucler sur un tableau
+
+```{JS}
+fruits.forEach(function(item, index, array) {
+  console.log(item, index);
+});
 ```
 
 ## Les operateurs des données
@@ -465,3 +501,155 @@ Copy to Clipboard
 ```
 
 #### Les paramètres du reste
+
+`Les paramètres du reste` permet de représenter un nombre indéfini d'arguments contenus dans un tableau.
+Dans cet exemple, on utilise une fonction fléchée, concept qui est présenté et illustré dans la section qui suit.
+
+```{JS}
+function multiplier(facteur, ...lesArgs) {
+  return lesArgs.map(x => facteur * x);
+}
+
+var arr = multiplier(2, 1, 2, 3);
+console.log(arr); // [2, 4, 6]
+```
+
+#### Fonctions fléchées
+
+Les fonctions fléchées ont été introduites pour deux raisons principales : une syntaxe plus courte et l'absence de `this` rattaché à la fonction.
+`Une expression de fonction fléchée` permet d'utiliser une syntaxe plus concise que les expressions de fonctions classiques. Une telle fonction ne possède alors pas de valeur propre pour `this`, `arguments`, `super` ou `new.target`.
+Les fonctions fléchées sont nécessairement anonymes.
+
+Exemple:
+
+```{JS}
+let a = [
+  "Hydrogen",
+  "Helium",
+  "Lithium",
+  "Beryllium"
+];
+var a2 = a.map(function(s){ return s.length });
+console.log(a2); // affiche [8, 6, 7, 9]
+var a3 = a.map( s => s.length );
+console.log(a3); // affiche [8, 6, 7, 9]
+
+
+// "a3" est equivalent à "a2" sauf que "a3" est une fonction fleché
+```
+
+Avec les fonctions fleché il faut comprendre la notion de **`Pas de "this" distinct`** dans les fonctions classique de javascript càd qu'on déclare avec le mot clé `function`, dans ces fonctions `this` a comme valeur la valeur de `l'objet global` dans un environnement web dans ce cas `this` vaudra l'objet `window`.
+Les fonctions fléchées n’ont pas leur propre valeur de `this`. La valeur de `this` à l’intérieur d’une fonction fléchée est toujours `héritée depuis la portée englobante`.
+Les fonctions fléchées capturent la valeur de `this` dans le contexte englobant.
+
+```{JS}
+function Personne(){
+  this.âge = 0;
+
+  setInterval(() => {
+    this.âge++; // "this" fait référence à l'objet personne
+  }, 1000);
+}
+
+var p = new Personne();
+```
+
+#### Fonctions prédéfinies
+
+JavaScript possède plusieurs fonctions natives, disponibles au plus haut niveau :
+
+- `eval()`: permet d'évaluer du code JavaScript contenu dans une chaîne de caractères.
+- `isFinite()`: Détermine si la valeur passée est un nombre fini. Si nécessaire, le paramètre sera converti en un nombre.
+- `isNaN()`: Détermine si une valeur est NaN ou non. Note : On pourra également utiliser `Number.isNaN()` défini avec ECMAScript 6 ou utiliser `typeof` afin de déterminer si la valeur est `Not-A-Number`
+- `parseFloat()`: Convertit une chaîne de caractères en un nombre flottant.
+- `parseInt()`: Convertit une chaîne de caractères et renvoie un entier dans la base donnée.
+- `decodeURI()`: Décode un `Uniform Resource Identifier (URI)` créé par `encodeURI()` ou une méthode similaire.
+- `decodeURIComponent()`: Décode un composant d'un `Uniform Resource Identifier (URI)` créé par `encodeURIComponent()` ou une méthode similaire.
+- `encodeURI()`: Encode un `Uniform Resource Identifier (URI)` en remplaçant chaque exemplaire de certains caractères par un, deux, trois voire quatre séquences d'échappement représentant l'encodage UTF-8 du caractères (quatre séquences seront utilisées uniquement lorsque le caractère est composé d'une paire de deux demi-codets).
+
+`encodeURIComponent()`: Encode un composant d'un `Uniform Resource Identifier (URI)` en remplaçant chaque exemplaire de certains caractères par un, deux, trois voire quatre séquences d'échappement représentant l'encodage UTF-8 du caractères (quatre séquences seront utilisées uniquement lorsque le caractère est composé d'une paire de deux demi-codets).
+
+### Quelques methodes ou fonctions Utiles sur les types d'elements en JS
+
+Avant tout sachez que il y a deux type de methodes courant en JS qui sont:
+
+- Les methodes prototypes et
+- Les methodes Statiques
+
+`Les methodes prototypes` s'utilisent sur l'instance d'un classe ie sur un Objet alors que les `methodes statiques` s'utilise sur la classe Elle même càd sans utiliser l'objet de la classe
+
+### Les methodes courants sur les tableau(Array)
+
+- **Ajouter à la fin du tableau**
+
+```{JS}
+let newLength = fruits.push('Orange'); // ["Apple", "Banana", "Orange"]
+```
+
+- **Supprimer le dernier élément du tableau**
+
+```{JS}
+let last = fruits.pop(); // supprime Orange (à la fin)
+// ["Apple", "Banana"];
+```
+
+- **Supprimer le premier élément du tableau**
+
+```{JS}
+let first = fruits.shift(); // supprime Apple (au début)
+// ["Banana"];
+```
+
+- **Ajouter au début du tableau**
+
+```{JS}
+let newLength = fruits.unshift('Strawberry') // ajoute au début
+// ["Strawberry", "Banana"];
+```
+
+- **Trouver l'index d'un élément dans le tableau**
+
+```{JS}
+fruits.push('Mango');
+// ["Strawberry", "Banana", "Mango"]
+
+let pos = fruits.indexOf('Banana');
+// 1
+```
+
+- **Supprimer un élément par son index**
+
+```{JS}
+let removedItem = fruits.splice(pos, 1); // supprime 1 élément à la position pos
+
+// ["Strawberry", "Mango"]
+```
+
+- **Supprimer des éléments à partir d'un index**
+
+```{JS}
+let vegetables = ['Cabbage', 'Turnip', 'Radish', 'Carrot'];
+console.log(vegetables); // ["Cabbage", "Turnip", "Radish", "Carrot"]
+
+let pos = 1, n = 2;
+
+let removedItems = vegetables.splice(pos, n);
+// n définit le nombre d'éléments à supprimer,
+// à partir de la position pos
+
+console.log(vegetables);
+// ["Cabbage", "Carrot"] (le tableau d'origine est changé)
+
+console.log(removedItems);
+// ["Turnip", "Radish"] (splice retourne la liste des éléments supprimés)
+```
+
+La fonction
+**Copier un tableau**
+
+```
+let shallowCopy = fruits.slice(); // crée un nouveau tableau qui contient les éléments de fruits
+// ["Strawberry", "Mango"]
+```
+
+Copy to Clipboard
