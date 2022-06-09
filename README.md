@@ -418,7 +418,6 @@ function getScore () {
 }
 
 getScore(); // Renvoie "Licorne a marqué 5"
-Copy to Clipboard
 ```
 
 Une fonction qui s'appelle elle-même est appelée une fonction récursive. Sous certains aspects, une récursion est semblable à une boucle : toutes les deux exécutent le même code plusieurs fois et toutes les deux requièrent une condition d'arrêt (pour éviter une boucle ou une récursion infinie).
@@ -465,7 +464,6 @@ fn_fille = parente(3); // Fournit une fonction qui ajoute 3 à ce qu'on lui donn
 résultat = fn_fille(5); // renvoie 8
 
 résultat1 = parente(3)(5); // renvoie 8
-Copy to Clipboard
 
 ```
 
@@ -497,7 +495,7 @@ function multiplier(a, b = 1) {
 }
 
 multiplier(5); // 5
-Copy to Clipboard
+
 ```
 
 #### Les paramètres du reste
@@ -573,12 +571,57 @@ JavaScript possède plusieurs fonctions natives, disponibles au plus haut niveau
 
 Avant tout sachez que il y a deux type de methodes courant en JS qui sont:
 
-- Les methodes prototypes et
+- Les méthodes des instances et
 - Les methodes Statiques
 
-`Les methodes prototypes` s'utilisent sur l'instance d'un classe ie sur un Objet alors que les `methodes statiques` s'utilise sur la classe Elle même càd sans utiliser l'objet de la classe
+`Les méthodes des instances` s'utilisent sur l'instance d'un classe ie sur un Objet alors que les `methodes statiques` s'utilise sur la classe Elle même càd sans utiliser l'objet de la classe
 
 ### Les methodes courants sur les tableau(Array)
+
+#### Méthodes statiques
+
+- `Array.from()`
+Cette méthode permet de créer une nouvelle instance d'`Array` à partir d'un objet semblable à un tableau ou d'un itérable.
+Elle prend deux parametres qui sont:
+  - `arrayLike` qui est Un objet semblable à un tableau ou bien un objet itérable dont on souhaite créer un tableau, instance d'Array et
+  - `fonctionMap Facultatif`: Argument optionnel, une fonction à appliquer à chacun des éléments du tableau.
+Exemple:
+
+```{JS}
+console.log(Array.from('foo'));
+// expected output: Array ["f", "o", "o"]
+
+console.log(Array.from([1, 2, 3], x => x + x));
+// expected output: Array [2, 4, 6]
+```
+
+- `Array.isArray()` permet de déterminer si l'objet passé en argument `Array.isArray(value)` est un objet Array, elle renvoie true si le paramètre passé à la fonction est de type Array et false dans le cas contraire.
+Par exemple:
+
+```{JS}
+Array.isArray([1, 2, 3]);   // true
+Array.isArray({toto: 123}); // false
+Array.isArray("tototruc");  // false
+Array.isArray(undefined);
+```
+
+- `Array.of()`
+La methode `Array.of()` permet de créer une nouvelle instance d'objet Array à partir d'un nombre variable d'arguments, quels que soient leur nombre ou leur type.
+
+La différence entre `Array.of()` et le constructeur Array se situe dans la gestion des arguments entiers : `Array.of(7)` crée un tableau avec un seul élément, 7, tandis que `Array(7)` produit un tableau avec 7 éléments vides (à ne pas confondre avec des éléments qui auraient explicitement la valeur `undefined`).
+
+Par exemple:
+
+```{JS}
+Array.of(1);         // [1]
+Array.of(1, 2, 3);   // [1, 2, 3]
+Array.of(undefined); // [undefined]
+```
+
+#### Les Méthodes des instances
+
+Les methodes des instances s'utilise sur les objets de type tableaux, pour les reconnaitre dans la documentation ils ont une syntaxe de type `prototype.NomDelaFonction`
+Soit le tableau `let fruits = ['Apple', 'Banana'];`
 
 - **Ajouter à la fin du tableau**
 
@@ -644,8 +687,6 @@ console.log(removedItems);
 // ["Turnip", "Radish"] (splice retourne la liste des éléments supprimés)
 ```
 
-La fonction
-
 - **Copier un tableau**
 
 ```{JS}
@@ -653,4 +694,748 @@ let shallowCopy = fruits.slice(); // crée un nouveau tableau qui contient les �
 // ["Strawberry", "Mango"]
 ```
 
-Copy to Clipboard
+- `Array.prototype.concat()`
+La méthode concat() est utilisée afin de fusionner deux ou plusieurs tableaux en les concaténant. Cette méthode ne modifie pas les tableaux existants, elle renvoie un nouveau tableau qui est le résultat de l'opération.
+Syntaxe:
+
+```{JS}
+Concat(valeur0)
+concat(valeur0, valeur1)
+concat(valeur0, valeur1, ... , valeurN)
+```
+
+Si `valeur` n'est pas passé, `concat` renverra une copie superficielle du tableau sur lequel elle est appelée.
+
+```{JS}
+const array1 = ['a', 'b', 'c'];
+const array2 = ['d', 'e', 'f'];
+const array3 = array1.concat(array2);
+
+console.log(array3);// expected output: Array ["a", "b", "c", "d", "e", "f"]
+```
+
+- `Array.prototype.entries()`
+La méthode `entries()` renvoie un nouvel objet de type Array Iterator qui contient le couple clef/valeur pour chaque éléments du tableau.
+
+```{JS}
+const array1 = ['a', 'b', 'c'];
+
+const iterator1 = array1.entries();
+
+console.log(iterator1);
+// expected output: Array [[0, "a"],[1,"b"],[2,"c"]]
+```
+
+```{JS}
+var arr = ['a', 'b', 'c'];
+var eArr = arr.entries();
+
+for (let e of eArr) {
+  console.log(e);
+}
+// [0, 'a']
+// [1, 'b']
+// [2, 'c']
+```
+
+- `Array.prototype.fill()`
+La méthode **`fill()`** remplit tous les éléments d'un tableau entre deux index avec une valeur statique. La valeur de l'index de fin n'est pas incluse. Cette méthode renvoie le tableau modifié.
+Syntaxe:
+
+```{JS}
+arr.fill(valeur)
+arr.fill(valeur, début)
+arr.fill(valeur, début, fin)
+```
+
+Cette méthode prend trois paramètres `valeur`, `début`,`fin`
+
+- `valeur`: Valeur avec laquelle remplir le tableau.
+- `début` : Index de début, la valeur par défaut est 0.
+- `fin` :Index de fin, la valeur par défaut est `this.length`.
+
+Cette methode retourne Le tableau modifié par la méthode.
+Les éléments pour lesquels on utilisera la `valeur` sont ceux contenus dans l'intervalle de positions \[`début`, `fin`\].
+Les arguments `début` et `fin` sont optionnels. Leurs valeurs par défaut sont respectivement `0` et la taille `length` de l'objet `this` ou du tableau courent.
+La méthode `fill()` est une méthode de modification, elle changera l'objet `this` lui-même, et renverra l'objet modifié. Elle ne crée pas de copie. Lorsque cette méthode reçoit un objet comme valeur, elle copiera l'objet passé et remplira le tableau avec une référence vers cette copie.
+
+Exemple:
+
+```{JS}
+const array1 = [1, 2, 3, 4,5];
+
+// fill with 0 from position 2 until position 4
+console.log(array1.fill(0, 2, 4));
+// expected output: [1, 2, 0, 0]
+
+// fill with 5 from position 1
+console.log(array1.fill(5, 1));
+// expected output: [1, 5, 5, 5]
+
+console.log(array1.fill(6));
+// expected output: [6, 6, 6, 6]
+```
+
+```{JS}
+[1, 2, 3].fill(4);            // [4, 4, 4]
+[1, 2, 3].fill(4, 1);         // [1, 4, 4]
+[1, 2, 3].fill(4, 1, 2);      // [1, 4, 3]
+[1, 2, 3].fill(4, 1, 1);      // [1, 2, 3]
+[1, 2, 3].fill(4, -3, -2);    // [4, 2, 3]
+[1, 2, 3].fill(4, 3, 3);      // [1, 2, 3]
+[1, 2, 3].fill(4, NaN, NaN);  // [1, 2, 3]
+Array(3).fill(4);             // [4, 4, 4]
+[].fill.call({length: 3}, 4); // {0: 4, 1: 4, 2: 4, length: 3}
+
+// Les objets sont copiés via une référence
+var arr = Array(3).fill({}); // [{}, {}, {}];
+arr[0].yop = "yop"; // [{yop: "yop"}, {yop: "yop"}, {yop: "yop"}]
+```
+
+- `Array.prototype.filter()`
+La méthode **`filter()`** crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine qui remplissent une condition déterminée par la fonction `callback`.
+`arr.filter(callback);`
+Cette methode retourne Un nouveau tableau contenant les éléments qui respectent la condition du filtre. Si aucun élément ne respecte la condition, c'est un tableau vide qui est renvoyé.
+La fonction `callback` est appelée avec trois arguments dont les deux dernier sont optionnel:
+
+1. la valeur de l'élément courant,
+2. l'index de l'élément courant,
+3. l'objet `Array` parcouru.
+`filter()` ne modifie pas le tableau d'origine.
+Exemple:
+
+```{JS}
+
+const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+const result = words.filter(word => word.length > 6);
+
+console.log(result); // expected output: Array ["exuberant", "destruction", "present"]
+
+function suffisammentGrand(element) {
+  return element >= 10;
+}
+var filtre = [12, 5, 8, 130, 44].filter(suffisammentGrand); // filtre vaut [12, 130, 44]
+```
+
+```{JS}
+// Recherche dans un tableau
+var fruits = ['pomme', 'banane', 'raisin', 'mangue'];
+
+function filtreTexte(arr, requete) {
+  return arr.filter(function (el) {
+    return el.toLowerCase().indexOf(requete.toLowerCase()) !== -1;
+  })
+}
+
+console.log(filtreTexte(fruits, 'an')); // ['banane', 'mangue'];
+console.log(filtreTexte(fruits, 'm')); // ['pomme', 'mangue'];
+```
+
+- `Array.prototype.findIndex()`
+
+La méthode **`findIndex()`** exécute une fonction `callback` et renvoie l'**`indice`** du **`premier élément`** du tableau qui satisfait une condition donnée par la fonction `callback`. Si `la fonction` renvoie `false` pour tous les éléments du tableau, le résultat vaut `-1`.
+Exemple:
+
+```{JS}
+const array1 = [5, 12, 8, 130, 44];
+
+const isLargeNumber = (element) => element > 13;
+
+console.log(array1.findIndex(isLargeNumber));// expected output: 3
+
+// Trouver un indice avec une fonction fléchée
+const fruits = ["pomme", "banane", "melon", "fraise", "raisin"];
+
+const indice = fruits.findIndex(fruit => fruit === "fraise");
+console.log(indice); // 3
+console.log(fruits[indice]); // fraise 
+```
+
+`findIndex` ne modifie pas le tableau sur laquelle elle est appelée
+
+- `Array.prototype.find()`
+La méthode **`find()`** renvoie la **valeur** du **premier élément trouvé** dans le tableau qui respecte la condition donnée par la fonction de test passée en argument. Sinon, la valeur `undefined` est renvoyée.
+
+Syntaxe :`arr.find[callback(element[, index[, tableau]]](, thisArg))`
+
+```{JS}
+const array1 = [5, 12, 8, 130, 44];
+
+const found = array1.find(element => element > 10);
+
+console.log(found);
+
+const inventaire = [
+                     {nom: 'pommes', quantité: 2},
+                     {nom: 'bananes', quantité: 0},
+                     {nom: 'cerises', quantité: 5}
+                   ];
+
+const resultat = inventaire.find( fruit => fruit.nom === 'cerises');
+console.log(resultat); // { nom: 'cerises', quantité: 5}
+```
+
+- `Array.prototype.map()`
+La méthode **`map()`** crée un nouveau tableau avec les résultats de l'appel d'une fonction fournie sur chaque élément du tableau appelant.
+Syntaxe: `var nouveauTableau = arr.map(callback [, thisArg])`
+La fonction `callback` prend 3 paramètres :
+- `valeurCourante` La valeur de l'élément du tableau à traiter.
+- `index` : L'index de l'élément qui est traité par la fonction.
+- `tableau`: Le tableau sur lequel on a appelé la méthode `map`.
+
+La methode `map` retourne un nouveau tableau composé des images de la fonction de rappel.
+`callback` est appelée avec trois arguments : la valeur de l'élément du tableau, l'index de cet élément et l'objet `Array` qui est parcouru.
+
+**Attention :** `map()` construit un nouveau tableau. Si on utilise cette méthode sans utiliser le résultat, mieux vaudra utiliser `forEach` ou `for...of`. Pour mieux décider si `map()`est adéquat, regardez si vous utilisez la valeur de `return` et/ou si vous renvoyez une valeur avec la fonction `callback` : si ce n'est pas le cas, il ne faut pas utiliser `map()`.
+
+Exemple:
+
+```{JS}
+const array1 = [1, 4, 9, 16];
+
+// pass a function to map
+const map1 = array1.map(x => x * 2);
+
+console.log(map1); // expected output: Array [2, 8, 18, 32]
+// Créer un tableau des racines carrées d'un tableau de nombre
+var nombres = [1, 4, 9];
+var racines = nombres.map(Math.sqrt);
+// racines vaut désormais [1, 2, 3]
+// nombres vaut toujours [1, 4, 9]
+```
+
+- `Array.prototype.flat()`
+
+La méthode **`flat()`** permet de créer un nouveau tableau contenant les éléments des sous-tableaux du tableau passé en argument, qui sont concaténés récursivement pour atteindre une profondeur donnée.
+Càd que la **`flat()`** permet de transformer un tableau qui contient des sous tableau en un tableau  avec une faible imbrication par rapport au précedent.
+
+Syntaxe: `var nouveauTableau = monTableau.flat([profondeur]);`
+Elle prend un seul parametre qui est `profondeur` qui est Le niveau de profondeur en termes d'imbrication de tableau. Autrement dit, jusqu'à quel niveau d'imbrication un tableau imbriqué doit il être `aplati`. La valeur par défaut est `1`.
+Cette methode retourne Un nouveau tableau qui contient la concaténation des éléments des sous-tableaux du tableau passé en argument.
+
+```{JS}
+var arr1 = [1, 2, [3, 4]];
+arr1.flat(); // [1, 2, 3, 4]
+
+var arr2 = [1, 2, [3, 4, [5, 6]]];
+arr2.flat(); // [1, 2, 3, 4, [5, 6]]
+
+var arr3 = [1, 2, [3, 4, [5, 6]]];
+arr3.flat(2);// [1, 2, 3, 4, 5, 6]
+```
+
+La méthode flat() permet également de retirer les « trous » d'un tableau :
+
+```{JS}
+var arr4 = [1, 2, , 4, 5];
+arr4.flat(); // [1, 2, 4, 5]
+```
+
+- `Array.prototype.flatMap()`
+La méthode **`flatMap()`** permet d'appliquer une fonction à chaque élément du tableau puis d'aplatir le résultat en un tableau. Cela correspond à l'enchaînement de `Array.prototype.map()` suivi de `Array.prototype.flat()` de profondeur 1. `flatMap` est plus efficace que la combinaison de ces deux opérations, souvent réalisées conjointement.
+
+Syntaxe: `var new_array = arr.flatMap(function callback(currentValue[, index[, array]]) { // return element for new_array }[, thisArg])`
+`callback`
+
+La fonction `callback` qui produit un élément du nouveau tableau et qui prend trois arguments :
+
+- `currentValue`: La valeur du tableau qui est traitée.
+- `index`: L'indice de l'élément du tableau qui est traitée.
+- `array` Le tableau sur lequel `flatMap` a été appelée.
+
+Elle retourne Un nouveau tableau composé d'éléments résultants de la fonction de rappel (`callback`) et aplati d'un niveau de profondeur.
+
+```{JS}
+// map() et flatMap()
+var arr1 = [1, 2, 3, 4];
+
+arr1.map(x => [x * 2]); // [[2], [4], [6], [8]]
+
+arr1.flatMap(x => [x * 2]); // [2, 4, 6, 8]
+
+// seul un niveau est aplati
+arr1.flatMap(x => [[x * 2]]); // [[2], [4], [6], [8]]
+
+// on génère une liste de mots à partir d'une liste de phrases
+let tableau1 = ["Coucou comment", "", "ça va ?"];
+
+tableau1.map(x => x.split(" ")); // [["Coucou", "comment"], [""], ["ça", "va", "?"]]
+
+tableau1.flatMap(x => x.split(" ")); // ["Coucou", "comment", "", "ça", "va", "?"]
+// On notera que la longueur de la liste obtenue avec `flatMap` est différente de la longueur de la liste originale.
+```
+
+- `Array.prototype.forEach()`
+La méthode **`forEach()`** permet d'exécuter une fonction donnée sur chaque élément du tableau.
+Syntaxe: `arr.forEach(callback);`
+La fonction `callback` prend en compte trois arguments :
+- `valeurCourante`: La valeur de l'élément du tableau en cours de traitement.
+- `index`: L'indice de l'élément du tableau en cours de traitement.
+- `array`: Le tableau sur lequel la méthode `forEach` est appliquée.
+
+```{JS}
+const array1 = ['a', 'b', 'c'];
+
+array1.forEach(element => console.log(element));
+
+// expected output: "a"
+// expected output: "b"
+// expected output: "c"
+
+var items = ["item1", "item2", "item3"]
+var copie = [];
+
+items.forEach(function(item){
+  copie.push(item);
+});
+```
+
+`forEach()` exécute la fonction `callback` une fois pour chaque élément. À la différence de `map()` ou de `reduce()` il renvoie toujours la valeur `undefined` et ne peut donc pas être « enchaîné ».
+`forEach()` ne modifie pas le tableau sur lequel elle est appelée, en revanche, la fonction de retour (_callback_) utilisée peut modifier le tableau.
+
+- `Array.prototype.includes()`
+La méthode **`includes()`** permet de déterminer si un tableau contient une valeur et renvoie `true` si c'est le cas, `false` sinon.
+Syntaxe:
+
+```{JS}
+array.includes(élémentRecherché)
+array.includes(élémentRecherché, indiceDépart)
+```
+
+La methode `includes` utilise  `l'égalité stricte` en son sein
+
+```{JS}
+const array1 = [1, 2, 3];
+
+console.log(array1.includes(2));
+// expected output: true
+
+const pets = ['cat', 'dog', 'bat'];
+
+console.log(pets.includes('cat')); // expected output: true
+
+console.log(pets.includes('at')); // expected output: false
+
+[1, 2, 3].includes(2);     // true
+[1, 2, 3].includes(4);     // false
+[1, 2, 3].includes(3, 3);  // false
+[1, 2, 3].includes(3, -1); // true
+[1, 2, NaN].includes(NaN); // true
+
+['a', 'b', 'c'].includes('c', 5);    // false
+['a', 'b', 'c'].includes('c', -100); //
+```
+
+`includes()` est une méhtode générique : l'objet sur lequel elle est appelée ne doit pas nécessairement être un tableau. On peut l'utiliser sur des objets semblables à des tableaux (ex. `arguments` ou des chaînes de caractères ou des tableaux d'objets)
+
+- `Array.prototype.join()`
+La méthode **`join()`** crée et renvoie une nouvelle chaîne de caractères en concaténant tous les éléments d'un tableau (ou d'`un objet semblable à un tableau`. La concaténation utilise la virgule ou une autre chaîne, fournie en argument, comme séparateur.
+Syntaxe: `arr.join() OU arr.join(séparateur)`
+
+Exemple:
+
+```{JS}
+const elements = ['Fire', 'Air', 'Water'];
+
+console.log(elements.join()); // expected output: "Fire,Air,Water"
+
+console.log(elements.join('')); // expected output: "FireAirWater"
+
+console.log(elements.join('-')); // expected output: "Fire-Air-Water"
+
+var a = new Array("Vent","Pluie","Feu");
+a.join();      // "Vent,Pluie,Feu"
+a.join(", ");  // "Vent, Pluie, Feu"
+a.join(" + "); // "Vent + Pluie + Feu"
+a.join(""); 
+```
+
+- `Array.prototype.keys()`
+La méthode **`keys()`** renvoie un nouvel objet **`Array Iterator`** qui contient les clefs pour chaque indice du tableau.
+Syntaxe: `array.keys();`
+Exemple:
+
+```{JS}
+const array1 = ['a', 'b', 'c'];
+const iterator = array1.keys();
+
+for (const key of iterator) {
+  console.log(key);
+}
+
+// expected output: 0
+// expected output: 1
+// expected output: 2
+```
+
+- `Array.prototype.values()`
+La méthode **`values()`** renvoie un nouvel objet **`Array Iterator`** qui contient les valeurs pour chaque indice du tableau. Cette méthode est l'implémentation par défaut de `Array.prototype[Symbol.Iterator]`.
+Syntaxe: `array.values()`
+
+```{JS}
+const array1 = ['a', 'b', 'c'];
+const iterator = array1.values();
+
+for (const value of iterator) {
+  console.log(value);
+}
+
+// expected output: "a"
+// expected output: "b"
+// expected output: "c"
+```
+
+- `Array.prototype.lastIndexOf()`
+La méthode **`lastIndexOf()`** permet de renvoyer le dernier indice pour lequel une valeur donnée est présente dans un tableau. Si la valeur recherchée n'est pas présente, le résultat sera -1.
+Syntaxe:
+
+```{JS}
+arr.lastIndexOf(élémentRecherché)
+arr.lastIndexOf(élémentRecherché, indexDébut)
+```
+
+Cette méthode prend deux paramètres:
+
+- `élémentRecherché`: L'élément à qu'on cherche dans le tableau.
+- `indexDébut`: L'index à partir duquel commencer la recherche dans le tableau (la recherche s'effectuant à l'envers). Si le paramètre est absent, sa valeur par défaut sera la longueur du tableau moins 1 (c'est-à-dire arr.length - 1), le tableau sera alors parcouru dans sa totalité. Si l'index est plus grand ou égal à la longueur du tableau, le tableau sera parcouru en entier. Si l'index est négatif, la recherche commencera d'autant d'éléments à partir de la fin du tableau. À noter que, même si l'index est négatif, la recherche s'effectuera toujours de la fin jusqu'au début du tableau. Si l'index calculé est inférieur à 0, la méthode renverra -1 et le tableau ne sera pas parcouru.
+
+```{JS}
+const animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];
+
+console.log(animals.lastIndexOf('Dodo')); // expected output: 3
+
+console.log(animals.lastIndexOf('Tiger')); // expected output: 
+
+// on utilise lastIndexOf afin de situer une valeur dans un tableau.
+var tableau = [2, 5, 9, 2];
+tableau.lastIndexOf(2);     // 3
+tableau.lastIndexOf(7);     // -1
+tableau.lastIndexOf(2, 3);  // 3
+tableau.lastIndexOf(2, 2);  // 0
+tableau.lastIndexOf(2, -2); // 0
+tableau.lastIndexOf(2, -1); // 
+
+// Trouver toutes les occurrences d'un élément, on utilise push pour les ajouter dans un autre tableau quand ils sont trouvés.
+
+
+var indices = [];
+var tableau = ['a', 'b', 'a', 'c', 'a', 'd'];
+var élément = 'a';
+var idx = tableau.lastIndexOf(élément);
+while (idx !== -1) {
+  indices.push(idx);
+  idx = (idx > 0 ? tableau.lastIndexOf(élément, idx - 1) : -1);
+}
+
+console.log(indices);
+// [4, 2, 0]
+```
+
+- `Array.prototype.reduce()`
+La méthode **`reduce()`** applique une fonction qui est un « `accumulateur` » et qui traite chaque valeur d'une liste (de la gauche vers la droite) afin de la réduire à une seule valeur.
+Syntaxe:
+
+```{JS}
+arr.reduce(callback)
+arr.reduce(callback, valeurInitiale)
+```
+
+`reduce()` prend  deux parametres:
+
+- `callback`:La fonction à exécuter sur chaque valeur de la liste (sauf le premier si aucune `valeurInitiale` n'est pas fournie),
+- `valeurInitiale`: Une valeur utilisée comme premier argument lors du premier appel de la fonction callback. Si aucune valeur initiale n'est fournie, le premier élément du tableau est utilisé (et la boucle de traitement ne le parcourera pas). Si on appelle reduce() sur un tableau vide sans fournir de valeur initiale, on aura une erreur.
+
+La methode `callback` prend 4 arguments en entrée :
+
+- `accumulateur`: L'accumulateur (la valeur retournée par le précédent appel de la fonction callback), ou la valeur initiale s'il sagit du premier appel
+- `valeurCourante`: La valeur de l'élément courant actuellement manipulé dans le tableau.
+- `index`: L'index de l'élément courant actuellement manipulé dans le tableau.
+-`array`: Le tableau sur lequel on a appelé la méthode `reduce()`.`callback`
+
+Si `valeurInitiale` est fournie dans l'appel de `reduce()`, alors `accumulateur` sera égale à `valeurInitiale` et `valeurCourante` sera égale à la première valeur de la liste. Si `valeurInitiale` n'est pas fournie, alors `accumulateur` sera égale à la première valeur de la liste, et `valeurCourante` sera alors égale à la seconde.
+
+```{JS}
+// On fait la somme de tous les elements d'un tableau
+
+// 01.On ne fournit pas de valeur initial
+[0, 1, 2, 3, 4].reduce(
+  (accumulateur, valeurCourante) => accumulateur + valeurCourante;
+);
+console.log(sumWithInitial); // expected output: 10
+
+// on fournit une valeur initiale comme second argument à l'appel de `reduce()`
+[0, 1, 2, 3, 4].reduce(function(accumulateur, valeurCourante, index, array){
+  return accumulateur + valeurCourante;
+}, 10);// la valeur renvoyée par reduce() serait 20.
+```
+
+- `Array.prototype.reverse()`
+La méthode **`reverse()`** inverse l'ordre des éléments d'un tableau : le premier élément devient le dernier et le dernier devient le premier et ainsi de suite.
+Syntaxe: `arr.reverse()` et retourne Le tableau inversé.
+
+Cette méthode modifie le tableau courant et renvoie une référence à ce tableau.
+Cette méthode est intentionnellement générique et peut être appelée ie il peut également etre utilisé sur les objets ou les chaines de caracteres
+Exemple:
+
+```{JS}
+const array1 = ['one', 'two', 'three'];
+console.log('array1:', array1);
+// expected output: "array1:" Array ["one", "two", "three"]
+
+const reversed = array1.reverse();
+console.log('reversed:', reversed);
+// expected output: "reversed:" Array ["three", "two", "one"]
+```
+
+- `Array.prototype.every()`
+La méthode `every()` permet de tester si tous les éléments d'un tableau vérifient une condition donnée par une fonction en argument. Cette méthode renvoie `un booléen` pour le résultat du test.
+
+NB: Cette méthode renvoie `true` pour n'importe quelle condition utilisée sur un tableau vide.
+La méthode `every` exécute la fonction `callback` fournie sur chacun des éléments contenus dans le tableau jusqu'à ce qu'un élément pour lequel la fonction `callback` renvoie une valeur `false` soit trouvé.Si un tel élément est trouvé, la méthode `every` renvoie directement `false`.
+si la fonction `callback` a renvoyé une valeur vraie pour tous les éléments, la méthode `every` renverra `true`.
+`every` ne modifie pas le tableau sur lequel elle a été appelée.
+`every` agit de la même façon que le quantificateur mathématiques « pour tous »,
+Exemple:
+
+```{JS}
+// Va verifier si tous les elements du tableau sont inferieurs à 40
+const isBelowThreshold = (currentValue) => currentValue < 40;
+
+const array1 = [1, 30, 39, 29, 10, 13];
+
+console.log(array1.every(isBelowThreshold));// expected output: true
+```
+
+- `Array.prototype.some()`
+La méthode **`some()`** teste si au moins un élément du tableau passe le test implémenté par la fonction fournie. Elle renvoie un booléen indiquant le résultat du test.
+**Note :** Cette méthode renverra `false`, quelle que soit la condition, si elle est utilisée sur un tableau vide.
+Syntaxe: `arr.some(callback[, objetThis])`
+
+Cette methode fonctionne comme la méthode `Array.prototype.every()` à la seule différence est que pour `Array.prototype.some()` il  suffit que une seule valeur du tableau verifie la condition du `callback` pour qu'elle renvois `true`.
+La méthode `some()` ne modifie pas le tableau sur lequel elle est appelée.
+Exemple:
+
+```{JS}
+const array = [1, 2, 3, 4, 5];
+
+// checks whether an element is even
+const even = (element) => element % 2 === 0;
+
+console.log(array.some(even)); // expected output: true
+
+
+// On teste si certains éléments d'un tableau sont plus grands que 10.
+
+function estAssezGrand(element, indice, array) {
+  return (element >= 10);
+}
+var resultat = [2, 5, 8, 1, 4].some(estAssezGrand); // resultat vaut false
+passed = [12, 5, 8, 1, 4].some(estAssezGrand); // passed vaut true
+
+[2, 5, 8, 1, 4].some(elem => elem > 10); // false
+[12, 5, 8, 1, 4].some(elem => elem > 10); // true
+```
+
+- `Array.prototype.sort()`
+La méthode **`sort()`** trie les éléments d'un tableau, dans ce même tableau, et renvoie le tableau.
+Syntaxe:
+
+```{JS}
+arr.sort()
+arr.sort(fonctionComparaison)
+```
+
+`sort()` prend un paramètre optionnel qui est `fonctionComparaison`, Ce paramètre optionnel permet de spécifier une fonction définissant l'ordre de tri.
+Cette fonction prendra deux arguments : le premier élément à comparer et le deuxième élément à comparer.
+`sort()` retourne Le tableau trié (le tri est effectué sur le tableau courant qui est modifié, aucune copie n'est réalisée).
+Dans le trie Les éléments valant `undefined` sont placés à la fin du tableau.
+
+- Si `fonctionComparaison(a, b)` est inférieur à 0, on trie `a` avec un indice inférieur à `b` (`a` sera classé avant `b`) Donc trie par ordre `croissant`.
+- Si `fonctionComparaison(a, b)` est supérieur à 0, on trie `b` avec un indice inférieur à `a`.(Donc trie par ordre `decroissant`)
+- Si `fonctionComparaison(a, b)` renvoie 0, on laisse `a` et `b` inchangés l'un par rapport à l'autre, mais triés par rapport à tous les autres éléments(Pas de trie)
+
+```{JS}
+function compare(a, b) {
+  if (a est inférieur à b selon les critères de tri)
+     return -1;
+  if (a est supérieur à b selon les critères de tri)
+     return 1;
+  // a doit être égal à b
+  return 0;
+}
+
+// OU
+
+function compareNombres(a, b) {
+  return a - b;
+}
+```
+
+Exemple:
+
+```{JS}
+const months = ['March', 'Jan', 'Feb', 'Dec'];
+months.sort();
+console.log(months); // expected output: Array ["Dec", "Feb", "Jan", "March"]
+
+const array1 = [1, 30, 4, 21, 100000];
+array1.sort();
+console.log(array1); // expected output: Array [1, 100000, 21, 30, 4]
+
+var nombres = [4, 2, 5, 1, 3];
+nombres.sort(function(a, b) {
+  return a - b;
+});
+console.log(nombres);// [1, 2, 3, 4, 5]
+
+// Avec les fonctions flechés
+let nombres = [4, 2, 5, 1, 3];
+nombres.sort((a, b) => a - b);
+console.log(nombres);
+```
+
+```{JS}
+var items = [
+  { name: "Edward", value: 21 },
+  { name: "Sharpe", value: 37 },
+  { name: "And", value: 45 },
+  { name: "The", value: -12 },
+  { name: "Magnetic", value: 13 },
+  { name: "Zeros", value: 37 }
+];
+items.sort(function (a, b) {
+  return a.value - b.value;
+});
+
+```
+
+- `Array.prototype.splice()`:
+La méthode **`splice()`** modifie le contenu d'un tableau en retirant des éléments et/ou en ajoutant de nouveaux éléments au meme tableaux.On peut ainsi vider ou remplacer une partie d'un tableau.
+Syntaxe:
+
+```{JS}
+var tabElementsSupprimes = array.splice(début, nbASupprimer[, élem1[, élem2[, ...]]])
+
+```
+
+Cette méthode prend 3 paramètres dont le 3è est facultatif
+
+- `début`: L'indice à partir duquel commencer à changer le tableau (l'indice du premier élement étant `0`). Si sa valeur est supérieure à la longueur du tableau `array.length`, `début` est ramené à la longueur du tableau `array.length`. S'il est négatif, le changement commencera d'autant d'éléments à partir de la fin du tableau, c'est à dire à partir de l'index `array.length + début`. Si `array.length + début` est inférieur à `0`, le changement commencera à l'index `0`.
+- `nbASupprimer`: Un entier indiquant le nombre d'anciens éléments à remplacer. Si ce paramètre est absent ou si sa valeur est supérieure ou égale à `array.length - début`, alors les éléments entre `début` et la fin du tableau seront supprimés. Si `nbASupprimer` vaut 0, aucun élément ne sera supprimé. Dans ce cas, il est nécessaire de spécifier au moins un nouvel élément.
+- `élemN`: Les éléments à ajouter au tableau à partir de `début`. Si vous ne spécifiez pas de nouvel élément, les anciens éléments seront simplement supprimés du tableau.
+
+`elemN` si il ou ils sont fournits va correspondre aux elements qui vont remplacer les elements supprimer
+Par exemple:
+
+```{JS}
+const months = ['Jan', 'March', 'April', 'June'];
+months.splice(1, 0, 'Feb');
+// inserts at index 1
+console.log(months);
+// expected output: Array ["Jan", "Feb", "March", "April", "June"]
+
+months.splice(4, 1, 'May');
+// replaces 1 element at index 4
+console.log(months);
+// expected output: Array ["Jan", "Feb", "March", "April", "May"]
+```
+
+```{JS}
+var mesPoissons  = ["scalaire", "clown", "mandarin", "chirurgien"];
+
+// supprime 0 élément à partir de l'index 2, et insère "tambour"
+var enleves = mesPoissons.splice(2, 0, "tambour");
+// mesPoissons est ["scalaire", "clown", "tambour", "mandarin", "chirurgien"]
+// enleves est [], aucun élément supprimé
+
+// supprime 1 élément à partir de l'index 3
+enleves = mesPoissons.splice(3, 1);
+// mesPoissons est ["scalaire", "clown", "tambour", "chirurgien"]
+// enleves est ["mandarin"]
+
+// supprime 1 élément à partir de l'index 2, et insère "trompette"
+enleves = mesPoissons.splice(2, 1, "trompette");
+// mesPoissons est ["scalaire", "clown", "trompette", "chirurgien"]
+// enleves est ["tambour"]
+
+// supprime 2 éléments à partir de l'index 0, et insère "perroquet", "anémone" et"bleu"
+enleves = mesPoissons.splice(0, 2, "perroquet", "anémone", "bleu");
+// mesPoissons est ["perroquet", "anémone", "bleu", "trompette", "chirurgien"]
+// enleves est ["scalaire", "clown"]
+
+// supprime 2 éléments à partir de l'indice 2
+enleves = mesPoissons.splice(mesPoissons.length - 3, 2);
+// mesPoissons est ["perroquet", "anémone", "chirurgien"]
+// enleves est ["bleu", "trompette"]
+
+var mesPoissons = ["perroquet", "anémone", "bleu", "trompette", "chirurgien"];
+// on retire trois éléments à partir de l'indice 2
+enleves = mesPoissons.splice(2);
+// mesPoissons vaut ["perroquet", "anémone"]
+// enleves vaut ["bleu", "trompette", "chirurgien"]
+
+var mesAnimaux = ["cheval", "chien", "chat", "dauphin"];
+enleves = mesAnimaux.splice(-2, 1);
+
+// mesAnimaux vaut ["cheval", "chien", "dauphin"]
+// enleves vaut ["chat"]
+```
+
+- `Array.prototype.slice()`:
+
+La méthode **`slice()`** renvoie un objet tableau, contenant une copie superficielle (_shallow copy_) d'une portion du tableau d'origine, la portion est définie par un indice de début et un indice de fin (exclus). Le tableau original ne sera pas modifié.
+Syntaxe:
+
+```{JS}
+arr.slice()
+arr.slice(début)
+arr.slice(début, fin)
+```
+
+Cette methode retourne Un nouveau tableau contenant les éléments extraits.
+`slice()` ne modifie pas le tableau original, mais renvoie une nouvelle copie du tableau
+Il prend deux parametre optionnel
+
+- `début`: Indice (à partir de zéro) depuis lequel commencer l'extraction. S'il s'agit d'un indice négatif, `début` indique un décalage depuis la fin de la séquence.Par exemple, `slice(-2)` extrait les avant-dernier et dernier éléments dans la séquence.
+Si `début` est absent, `slice()` commencera depuis 0. Si `début` est supérieur à la taille du tableau, c'est un tableau vide qui sera renvoyé.
+- `fin`: ndice (à partir de zéro) auquel arrêter l'extraction. `slice()` extrait jusqu'à cet indice, mais pas l'élément situé en `fin` lui-même. `slice(1,4)` extrait du deuxième au quatrième élément(càd il va extraire de l'indice 1 à l'indice 3 donc il va ignorer l'indice 4)
+
+S'il s'agit d'un indice négatif, `fin` indique un décalage depuis la fin de la séquence. `slice(2,-1)` extrait du troisième à l'avant-dernier élément dans la séquence. Si `fin` n'est pas fourni, `slice()` extraira jusqu'à la fin de la séquence (`arr.length`). Si `fin` est supérieur à la longueur de la séquence, `slice()` fera une extraction jusqu'à la fin de la séquence.
+Exemple:
+
+```{JS}
+const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+console.log(animals.slice(2)); // expected output: Array ["camel", "duck", "elephant"]
+
+console.log(animals.slice(2, 4)); // expected output: Array ["camel", "duck"]
+
+console.log(animals.slice(1, 5)); // expected output: Array ["bison", "camel", "duck", "elephant"]
+
+console.log(animals.slice(-2)); // expected output: Array ["duck", "elephant"]
+
+console.log(animals.slice(2, -1));// expected output: Array ["camel", "duck"]
+
+console.log(animals.slice());// expected output: Array ["ant", "bison", "camel", "duck", "elephant"]
+
+
+var fruits = ["Banane", "Orange", "Citron", "Pomme", "Mangue"];
+var agrumes = fruits.slice(1, 3);
+
+// fruits vaut --> ["Banane", "Orange", "Citron", "Pomme", "Mangue"]
+// agrumes vaut --> ["Orange", "Citron"]
+```
+
+- `Array.prototype.toString()`
+
+- La méthode toString() renvoie une chaine de caractères représentant le tableau spécifié et ses éléments.
+Exemple:
+
+```{JS}
+const array1 = [1, 2, 'a', '1a'];
+
+console.log(array1.toString());
+// expected output: "1,2,a,1a"
+
+```
