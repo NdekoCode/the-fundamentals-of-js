@@ -645,9 +645,10 @@ console.log(removedItems);
 ```
 
 La fonction
-**Copier un tableau**
 
-```
+- **Copier un tableau**
+
+```{JS}
 let shallowCopy = fruits.slice(); // crée un nouveau tableau qui contient les éléments de fruits
 // ["Strawberry", "Mango"]
 ```
