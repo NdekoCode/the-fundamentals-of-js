@@ -1462,6 +1462,44 @@ String.fromCharCode(0x2014);   // "—"
 String.fromCharCode(0x12014);  // "—" également, le 1 a été tronqué
 String.fromCharCode(8212);     // renvoie également "—" car 8212
                                // est la forme décimale
-´´´
+```
 
 - `String.fromCodePoint()`
+La méthode statique **`String.fromCodePoint()`** renvoie une chaîne de caractères créée à partir d'un suite de codets.
+Syntaxe: `String.fromCodePoint(num1[, ...[, numN]])` avec `num1, ..., numN` Une séquence de codets (code points).
+
+- Une exception `RangeError` est renvoyée si un codet (Unicode) invalide est utilisé (par exemple, on pourra avoir "RangeError: NaN is not a valid code point").
+Exemple:
+
+```{JS}
+console.log(String.fromCodePoint(9731, 9733, 9842, 0x2F804));
+// expected output: "☃★♲你"
+```
+
+```{JS}
+String.fromCodePoint(42);       // "*"
+String.fromCodePoint(65, 90);   // "AZ"
+String.fromCodePoint(0x404);    // "\u0404"
+String.fromCodePoint(0x2F804);  // "\uD87E\uDC04"
+String.fromCodePoint(194564);   // "\uD87E\uDC04"
+String.fromCodePoint(0x1D306, 0x61, 0x1D307) // "\uD834\uDF06a\uD834\uDF07"
+
+String.fromCodePoint('_');      // RangeError
+String.fromCodePoint(Infinity); // RangeError
+String.fromCodePoint(-1);       // RangeError
+String.fromCodePoint(3.14);     // RangeError
+String.fromCodePoint(3e-2);     // RangeError
+String.fromCodePoint(NaN);      // RangeError
+```
+
+**Comparaison avec fromCharCode()**
+
+La méthode `String.fromCharCode()` ne peut pas renvoyer les caractères de l'intervalle 0x010000 à 0X10FFFF avec un seul codet, il est nécessaire de lui fournir la paire décomposée (_surrogate pair_) pour obtenr un tel caractère :
+
+```{JS}
+String.fromCharCode(0xD83C, 0xDF03); // émoji « nuit étoilée »
+String.fromCharCode(55356, 57091);   // équivalent en notation décimale
+```
+
+`String.fromCodePoint()`, en revanche, peut renvoyer les caractères qui s'expriment sur plus d'un codet de 16 bits grâce à leur codet « simple » :
+`String.fromCodePoint(0x1F303); // ou 127747 en notation décimale`
