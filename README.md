@@ -1435,7 +1435,33 @@ Exemple:
 ```{JS}
 const array1 = [1, 2, 'a', '1a'];
 
-console.log(array1.toString());
-// expected output: "1,2,a,1a"
+console.log(array1.toString()); // expected output: "1,2,a,1a"
 
 ```
+
+### Les methodes courants sur les chaines de caractères
+
+Imaginons les opérations utiles que nous pourrions faire sur les chaînes de caractères avec les méthodes intégrées
+
+#### Méthodes statiques pour les String
+
+- `String.fromCharCode()`
+La méthode statique **`String.fromCharCode()`** renvoie une chaîne de caractères créée à partir de `points de code UTF-16.`
+Syntaxe: `String.fromCharCode(num1, ..., numN)`
+Le paramètre `num1, ..., numN` est Une séquence de nombres représentant des points de code UTF-16 entre 0 et 65535 (`0xFFFF`). Les nombres supérieurs à `0xFFFF` sont tronqués.
+
+Cette méthode renvoie une chaîne de caractère et non un objet String.
+Exemple:
+
+```{JS}
+console.log(String.fromCharCode(189, 43, 190, 61));
+// expected output: "½+¾="
+
+String.fromCharCode(65,66,67); // ABC
+String.fromCharCode(0x2014);   // "—"
+String.fromCharCode(0x12014);  // "—" également, le 1 a été tronqué
+String.fromCharCode(8212);     // renvoie également "—" car 8212
+                               // est la forme décimale
+´´´
+
+- `String.fromCodePoint()`
