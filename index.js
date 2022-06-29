@@ -19,7 +19,11 @@ Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2; // 9007199254740992
 console.log(Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2);
 
 const username = "Ndekocode";
-
+const greet = (greeting = "Hello") => {
+  console.log(`${greeting} World`);
+};
 console.log(
   `Mon nom d'utilisateur sur github ${username} est un nom congolais`
 );
+
+greet("Salut");
