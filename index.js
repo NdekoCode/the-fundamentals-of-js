@@ -27,3 +27,18 @@ console.log(
 );
 
 greet("Salut");
+
+const profile = {
+  firstname: "Arick",
+  lastname: "Bulakali",
+  username: "Ndekocode",
+  age: 55,
+  color: "Blue",
+};
+const presentation = (profile) => {
+  const { firstname, lastname, username } = profile;
+  console.log(
+    `Je suis ${firstname} ${lastname} et mon nom d'utilisateur est ${username}`
+  );
+};
+presentation(profile);
