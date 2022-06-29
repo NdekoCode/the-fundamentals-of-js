@@ -1503,3 +1503,123 @@ String.fromCharCode(55356, 57091);   // équivalent en notation décimale
 
 `String.fromCodePoint()`, en revanche, peut renvoyer les caractères qui s'expriment sur plus d'un codet de 16 bits grâce à leur codet « simple » :
 `String.fromCodePoint(0x1F303); // ou 127747 en notation décimale`
+
+- `String.raw()`
+La méthode statique **`String.raw()`** est une fonction d'étiquetage (_tag function_) pour les `gabarits de chaînes de caractères`.
+Cette fonction permet d'obtenir la chaîne brute pour un gabarit (les caractères spéciaux ne sont pas pris en compte mais retranscrits tels quels, les séquences d'échappement ne sont pas interprétées et les emplacements
+Syntaxe:
+
+```{JS}
+String.raw(callSite, ...substitutions)
+
+String.raw`gabaritChaîne`
+
+```
+
+Exemple:
+
+```{JS}
+
+// Create a variable that uses a Windows
+// path without escaping the backslashes:
+const filePath = String.raw`C:\Development\profile\aboutme.html`;
+
+console.log(`The file was uploaded from: ${filePath}`);
+// expected output: "The file was uploaded from: C:\Development\profile\aboutme.html"
+
+String.raw`Hi\n${2+3}!`;
+// "Hi\n5!", le caractère après "Hi" n'est pas
+// le caractère de nouvelle ligne
+// "\" et "n" sont bien deux caractères distincts
+// ici.
+
+String.raw`Hi\u000A!`;
+// "Hi\u000A!", de même ici. Les caractères
+//  \, u, 0, 0, 0, A et 6 sont distincts.
+// Tous les caractères d'échappement seront
+// inefficaces. Des backslashes peuvent donc être
+// présents dans la chaîne produite. Cela peut
+// être vérifié avec la propriété .length de la
+// chaîne.
+
+let nom = "Bob";
+String.raw`Hi\n${nom}!`;
+// "Hi\nBob!", les remplacements sont effectués.
+```
+
+#### Méthodes des instances pour les chaines de characteres
+
+- `String.prototype.charAt(index)`
+Renvoie le caractère (exactement un seul codet UTF-16) à l'indice indiqué par index.
+Cette methode est presque la meme que pour les tableau mais ce cas est appliquer aux chaines de caractères
+Les caractères d'une chaîne sont indexés de la gauche vers la droite.
+
+```{JS}
+
+// Afficher les caractères situés à différentes positions d'une chaîne
+var uneChaîne = "Coucou tout le monde";
+
+console.log("La caractère d'indice 0 est '" + uneChaîne.charAt(0)   + "'");
+console.log("La caractère d'indice 1 est '" + uneChaîne.charAt(1)   + "'");
+console.log("La caractère d'indice 2 est '" + uneChaîne.charAt(2)   + "'");
+console.log("La caractère d'indice 3 est '" + uneChaîne.charAt(3)   + "'");
+console.log("La caractère d'indice 4 est '" + uneChaîne.charAt(4)   + "'");
+console.log("La caractère d'indice 999 est '" + uneChaîne.charAt(999) + "'");
+
+
+// Ces lignes afficheront respectivement :
+
+// La caractère d'indice 0 est 'C'
+// La caractère d'indice 1 est 'o'
+// La caractère d'indice 2 est 'u'
+// La caractère d'indice 3 est 'c'
+// La caractère d'indice 4 est 'o'
+// La caractère d'indice 999 est ''
+```
+
+- `String.prototype.charCodeAt()`
+
+La méthode **`charCodeAt()`** retourne un entier compris entre 0 et 65535 qui correspond au code UTF-16 d'un caractère de la chaîne situé à une position donnée.
+Syntaxe: `str.charCodeAt(indice)` avec `indice` Un entier supérieur ou égal à zéro et strictement inférieur à la longueur de la chaîne. La valeur par défaut sera zéro (0).
+Cette methode ´charCodeAt()´ retourne Un nombre qui représente la valeur du point de code UTF-16  pour le caractère à la position indiquée. Si index pointe en dehors de la chaîne, ce sera `NaN` qui sera renvoyé.
+La méthode `charCodeAt()` renverra toujours une valeur inférieure à 65 536.
+
+`charCodeAt()` renverra NaN si l'indice fourni est strictement inférieur à 0 ou dépasse la longueur de la chaîne.
+Pour recomposer de tels caractères `UTF-16`, il faut donc utiliser `charCodeAt(i)` **et aussi** `charCodeAt(i+1)` afin de pouvoir récupérer chaque demi-codet. Pour plus de détails,
+Exemple:
+
+```{JS}
+const sentence = 'The quick brown fox jumps over the lazy dog.';
+
+const index = 4;
+
+console.log(`The character code ${sentence.charCodeAt(index)} is equal to ${sentence.charAt(index)}`);
+// expected output: "The character code 113 is equal to q"
+
+"ABC".charCodeAt(0) // returns 65 la valeur Unicode de A.
+```
+
+## Le DOM
+
+Les méthodes de travail avec les attributs sont les suivantes :
+
+- elem.hasAttribute(name) – pour vérifier l’existence.
+- elem.getAttribute(name) – pour obtenir la valeur.
+- elem.setAttribute(name, value) – pour définir la valeur.
+- elem.removeAttribute(name) – pour supprimer l’attribut.
+- elem.attributes est une collection de tous les attributs.
+
+Pour la plupart des situations, l’utilisation des propriétés DOM est préférable. Nous devons nous référer aux attributs uniquement lorsque les propriétés DOM ne nous conviennent pas, lorsque nous avons besoin exactement d’attributs, par exemple :
+
+- Nous avons besoin d’un attribut non standard. Mais s’il commence par data-, alors nous devrions utiliser dataset.
+- Nous voulons lire la valeur “telle qu’elle est écrite” en HTML. La valeur de la propriété DOM peut être différente, par exemple la propriété href est toujours une URL complète, et nous pouvons vouloir obtenir la valeur “originale”.
+Par exemple, si un elem a un attribut nommé "data-about", il est disponible en tant que `elem.dataset.about`.
+
+Comme ceci :
+
+```{HTML
+body data-about="Elephants">
+<script> alert(document.body.dataset.about); // Elephants </script>
+```
+
+Les attributs de plusieurs mots comme data-order-state deviennent camel-cased : dataset.orderState.
