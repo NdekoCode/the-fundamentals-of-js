@@ -35,8 +35,7 @@ const profile = {
   age: 55,
   color: "Blue",
 };
-const presentation = (profile) => {
-  const { firstname, lastname, username } = profile;
+const presentation = ({ firstname, lastname, username }) => {
   console.log(
     `Je suis ${firstname} ${lastname} et mon nom d'utilisateur est ${username}`
   );
