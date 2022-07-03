@@ -1601,6 +1601,36 @@ console.log(`The character code ${sentence.charCodeAt(index)} is equal to ${sent
 
 ## Le DOM
 
+Le DOM, qui signifie `Document Object Model` C'est une interface de programmation qui represente la page HTML d'une site  web et qui permet d'interagir avec les elements de cette page en utilisant le langage JavaScript.
+Il faut voir le DOM comme un arbre où chaque élément peut avoir zéro ou plusieurs enfants.
+
+Dans le DOM, on commence toujours par un élément racine qui est le point de départ du document : la balise  `<html>` . Celle-ci a pour enfants les balises  `<head>`  et  `<body>`  qui ont donc un parent commun : la balise  `<html>` ! Vous trouverez ensuite le contenu de votre page dans la balise  `<body>`  sous forme de liens, boutons, blocs, etc.
+
+### Accédez aux éléments du DOM
+
+Chaque élément du DOM est un objet JavaScript avec ses propriétés et ses fonctions pour le manipuler.
+Avant de commencer les manipulations nous allons d'abord voir les différentes façons de retrouver des éléments dans notre page.
+
+#### Le document
+
+Tout commence avec le  `document` . Cet objet, auquel vous avez directement accès dans votre code JavaScript, est le **point de départ** du DOM. Il représente votre page (votre document) entière.
+C'est lui qui contient les fonctions dont vous aurez besoin pour retrouver les éléments que vous cherchez.
+
+- **`document.getElementById()`**:
+Elle va rechercher un élément grâce à son  `id` et ne retourner qu'un seul element . Sans oublier qu'il ne doit y avoir qu'un seul élément avec un  `id`.
+`getElementById(<id>)` prend en paramètre l' `id`  de l'élément que vous recherchez et vous retournera cet élément s'il a été trouvé sinon il va retourner `null`
+- **`document.getElementsByClassName()`**:
+Cette méthode fonctionne de la même manière que la précédente, mais fera sa recherche sur la  `class`  des éléments et retournera **la liste** des éléments qui correspondent.
+prend en paramètre la  classe  des éléments à rechercher et vous retournera `une liste d'éléments` correspondants ou `ǹull` si aucune correspondance n'est trouver.
+- **`document.getElementsByTagName()`**:
+Avec cette méthode, vous rechercherez tous les éléments avec un **nom de balise** bien précis (par exemple tous les liens (  `a`  ), tous les boutons (  `button`  ), tous les paragraphes ('p'), tous les...).
+`getElementsByTagName(<name>)` prend en paramètre le nom de la balise à rechercher et vous retournera **la liste** des éléments correspondants ou `null` s'il ne trouve rien.
+- **`document.querySelector()`**: Cette méthode est plus complexe, mais aussi beaucoup plus puissante car elle vous permet de faire une recherche complexe dans le DOM, en mélangeant plusieurs procédés. Il s'agit en fait d'un sélecteur qui permet de cibler certains éléments.
+  Par exemple,  `document.querySelector("#myId p.article > a")`  fera une recherche dans l'élément ayant pour id  `#myId` , les éléments de type  `<p>`  qui ont pour classe  `article` , afin de récupérer le lien (  `<a>`  ) qui est un enfant direct (pas des enfants de ses enfants).
+  Par exemple,  `document.querySelector("#myId")`  fera une recherche dans l'élément ayant pour id  `#myId`, `document.querySelector("p.article")`  fera une recherche sur les éléments de type  `<p>`  qui ont pour classe  article, `document.querySelector("p.article > a")` afin de récupérer le lien (  `<a>`  ) qui est un enfant direct (pas des enfants de ses enfants).
+  `querySelector()`  ne renvoie pas une liste des résultats, mais le premier élément qui correspond à la recherche. `querySelector(<selector>)`  prend en paramètre le sélecteur et vous retournera le premier élément trouvé, ou  `null`  si aucun élément n'a été trouvé.
+  our retourner une liste de résultats qui correspondent à la recherche que vous souhaitez faire il faudra utiliser la fonction  `querySelectorAll`  , qui fonctionne de la même manière.
+
 Les méthodes de travail avec les attributs sont les suivantes :
 
 - elem.hasAttribute(name) – pour vérifier l’existence.
@@ -1623,3 +1653,12 @@ body data-about="Elephants">
 ```
 
 Les attributs de plusieurs mots comme data-order-state deviennent camel-cased : dataset.orderState.
+
+### Les recherches depuis un élément
+
+Il n'y a pas qu'avec  document  que vous pouvez rechercher des éléments.
+Chaque élément est un objet JavaScript avec ses propriétés et ses fonctions et parmi ces `propriétés` et ces `fonctions`, il en existe pour parcourir les enfants et le parent de chaque élément.
+
+- `element.children`  : cette propriété nous retourne la liste des enfants de cet élément
+- `element.parentElement`  : cette propriété nous retourne l'élément parent de celui-ci
+- `element.nextElementSibling`  /  `element.previousElementSibling`  : ces propriétés nous permettent de naviguer vers l'élément suivant / précédent de même niveau que notre élément.
