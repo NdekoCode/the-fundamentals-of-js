@@ -1631,28 +1631,31 @@ Avec cette méthode, vous rechercherez tous les éléments avec un **nom de bali
   `querySelector()`  ne renvoie pas une liste des résultats, mais le premier élément qui correspond à la recherche. `querySelector(<selector>)`  prend en paramètre le sélecteur et vous retournera le premier élément trouvé, ou  `null`  si aucun élément n'a été trouvé.
   our retourner une liste de résultats qui correspondent à la recherche que vous souhaitez faire il faudra utiliser la fonction  `querySelectorAll`  , qui fonctionne de la même manière.
 
-Les méthodes de travail avec les attributs sont les suivantes :
+### Modifiez le contenu d'un élément
 
-- elem.hasAttribute(name) – pour vérifier l’existence.
-- elem.getAttribute(name) – pour obtenir la valeur.
-- elem.setAttribute(name, value) – pour définir la valeur.
-- elem.removeAttribute(name) – pour supprimer l’attribut.
-- elem.attributes est une collection de tous les attributs.
+Pour de modifier directement le contenu de notre élément. Les deux proprieter principales sont :  `innerHTML`  et  `textContent`.
 
-Pour la plupart des situations, l’utilisation des propriétés DOM est préférable. Nous devons nous référer aux attributs uniquement lorsque les propriétés DOM ne nous conviennent pas, lorsque nous avons besoin exactement d’attributs, par exemple :
+- **`innerHTML`**  demande à ce que vous entriez du texte représentant un contenu HTML.
+- **`textContent`** , quant à elle, demande un simple texte qui ne sera pas interprété comme étant du HTML.
+Définir une valeur à `innerHTML` ou `textContent` remplace directement le contenu actuel de l'élément par celui que vous précisez.
+Par exemple:
 
-- Nous avons besoin d’un attribut non standard. Mais s’il commence par data-, alors nous devrions utiliser dataset.
-- Nous voulons lire la valeur “telle qu’elle est écrite” en HTML. La valeur de la propriété DOM peut être différente, par exemple la propriété href est toujours une URL complète, et nous pouvons vouloir obtenir la valeur “originale”.
-Par exemple, si un elem a un attribut nommé "data-about", il est disponible en tant que `elem.dataset.about`.
+```{JS}
+let elt = document.getElementById('main');
+elt.innerHTML = "<ul><li>Elément 1</li><li>Elément 2</li></ul>";
 
-Comme ceci :
-
-```{HTML
-body data-about="Elephants">
-<script> alert(document.body.dataset.about); // Elephants </script>
 ```
 
-Les attributs de plusieurs mots comme data-order-state deviennent camel-cased : dataset.orderState.
+l'élément qui a l'id '`main`' aura un nouveau contenu ; le HTML deviendra donc :
+
+```{HTML}
+<div id="main">
+    <ul>
+        <li>Elément 1</li>
+        <li>Elément 2</li>
+    </ul>
+</div>
+```
 
 ### Les recherches depuis un élément
 
@@ -1662,3 +1665,157 @@ Chaque élément est un objet JavaScript avec ses propriétés et ses fonctions 
 - `element.children`  : cette propriété nous retourne la liste des enfants de cet élément
 - `element.parentElement`  : cette propriété nous retourne l'élément parent de celui-ci
 - `element.nextElementSibling`  /  `element.previousElementSibling`  : ces propriétés nous permettent de naviguer vers l'élément suivant / précédent de même niveau que notre élément.
+
+### Modifiez des classes
+
+Il est aussi possible d'accéder directement à la liste des classes d'un élément avec la propriété  `classList` .
+Cette propriété  `classList`  fournit aussi une série de fonctions permettant de modifier cette liste de classes. En voici quelques-unes :
+
+- `add(<string>, [<string>, ...] )` : ajoute la ou les classes spécifiées
+- `remove(<string>, [<string>, ...] )` : supprime la ou les classes
+- `contains(<string> )`: vérifie si la classe spécifiée est contenue par cet élément
+- `replace(<old>, <new> )`: remplace l'ancienne classe par la nouvelle classe.
+
+Voici quelques exemples :
+
+```{JS}
+elt.classList.add("nouvelleClasse");    // Ajoute la classe nouvelleClasse à l'élément
+elt.classList.remove("nouvelleClasse"); // Supprime la classe nouvelleClasse que l'on venait d'ajouter
+elt.classList.contains("nouvelleClasse");   // Retournera false car on vient de la supprimer
+elt.classList.replace("oldClass", "newClass"): // Remplacera oldClass par newClass si oldClass était présente sur l'élément
+```
+
+### Changez les styles d'un élément
+
+Avec la propriété  **`style`** , vous pouvez récupérer et modifier les différents styles d'un élément.
+`style`  est un objet qui a une propriété pour chaque style existant. Par exemple, pour modifier la couleur d'arrière-plan d'un élément, vous ferez :  `element.style.backgroundColor = '#000';`
+Voici quelques exemples :
+
+```{JS}
+elt.style.color = "#fff";      // Change la couleur du texte de l'élément à blanche
+elt.style.backgroundColor = "#000"; // Change la couleur de fond de l'élément en noir
+elt.style.fontWeight = "bold"; // Met le texte de l'élément en gras
+```
+
+Avec la proprieter  **`style`** on peut aussi modifier la valeur d'une proprieter css ou d'une variable css en utilisant la methode `style.setProperty(<propertyName>,<value>,<priority(optionnel)>)` cette proprieter prend en parametre le nom de l'attribut à modifier et la valeur que nous voulions lui affecter
+**Remarque :** `value` ne doit pas contenir `"!important"`, qui doit être défini à l'aide du `priority`paramètre, cette methode retourne `ùndefined`
+
+```{JS}
+<div class="controls">
+  <button class="border">Border</button>
+  <button class="bgcolor">Background</button>
+  <button class="color">Text</button>
+</div>
+```
+
+```{CSS}
+
+:root {
+  --white:#fff;
+  --lh:30px;
+}
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+div button {
+  flex: 1;
+  margin: 20px;
+  height: 30px;
+  line-height: var(--lh);
+}
+
+```
+
+```{JS}
+const buttons = document.querySelectorAll('.controls button') // On recupère tous les boutons et on change la hauteur de ligne dynamiquement
+buttons.forEach(btn=>{
+  btn.style.setProperty('--lh', '25px')
+});
+```
+
+### Interagir avec les attributs
+
+Pour définir ou remplacer les attributs d'un élément, vous pouvez utiliser la fonction `setAttribute` .
+`element.setAttribute(<name>, <value> )`  prend en paramètres le nom de l'attribut et sa valeur et ne retourne rien.
+Vous pouvez utiliser les fonctions **`getAttribute`** et **`removeAttribute`** pour avoir encore plus de contrôle sur les attributs.
+
+- **`getAttribute(name)`**: prend en paramètres le nom de l'attribut et retourne la valeur de cet attribut sur l'element.
+- **`getAttribute(name)`**: prend en paramètres le nom de l'attribut et supprime cet attribut sur cet element et ne retourne rien.
+ Voici quelques exemples avec  `elt`  faisant référence à un élément de type  `input`  :
+
+```{JS}
+elt.setAttribute("type", "password");   // Change le type de l'input en un type password
+elt.setAttribute("name", "my-password");    // Change le nom de l'input en my-password
+elt.getAttribute("name");               // Retourne my-password
+```
+
+Les méthodes de travail avec les attributs sont les suivantes :
+
+- **`elem.hasAttribute(name)`** – pour vérifier l’existence.
+- **`elem.getAttribute(name)`** – pour obtenir la valeur.
+- **`elem.setAttribute(name, value)`**– pour définir la valeur.
+- **`elem.removeAttribute(name)`** – pour supprimer l’attribut.
+- **`elem.attributes`** est une collection de tous les attributs.
+
+Pour la plupart des situations, l’utilisation des propriétés DOM est préférable. Nous devons nous référer aux attributs uniquement lorsque les propriétés DOM ne nous conviennent pas, lorsque nous avons besoin exactement d’attributs, par exemple :
+
+- Nous avons besoin d’un attribut non standard. Mais s’il commence par data-, alors nous devrions utiliser dataset.
+- Nous voulons lire la valeur “telle qu’elle est écrite” en HTML. La valeur de la propriété DOM peut être différente, par exemple la propriété href est toujours une URL complète, et nous pouvons vouloir obtenir la valeur “originale”.
+Par exemple, si un elem a un attribut nommé "data-about", il est disponible en tant que `elem.dataset.about`.
+
+Comme ceci :
+
+```{HTML,JS}
+body data-about="Elephants">
+<script> alert(document.body.dataset.about); // Elephants </script>
+```
+
+Les attributs de plusieurs mots comme `data-order-state` deviennent camel-cased : `dataset.orderState`.
+
+### Créez de nouveaux éléments
+
+La fonction  `document.createElement` va nous permettre de créer un nouvel élément du type spécifié, puis nous pourrons l'insérer dans notre DOM.
+`document.createElement(<tag>)` prend en paramètre le nom de la balise de notre élément et nous renvoie l'élément nouvellement créé.
+
+```{JS}
+const newElt = document.createElement("div");
+```
+
+Un élément créé avec cette fonction ne fait pas encore partie du document, vous ne le verrez donc pas sur votre page. Pour le voir, il va d'abord falloir l'ajouter en tant qu'enfant à un élément.
+
+#### Ajoutez des enfants
+
+Il existe plusieurs façons d'ajouter un élément dans notre page. La plus connue est  `appendChild`. Cette fonction permet d'ajouter un élément à la liste des enfants du parent depuis lequel la fonction est appelée.
+`parentNode.appendChild(<element>)` prend en paramètre l'élément à ajouter en tant qu'enfant. L'élément depuis lequel on appelle cette fonction devient donc le parent de notre élément.
+Voici un exemple :
+
+```{JS}
+const newElt = document.createElement("div");
+let elt = document.getElementById("main");
+
+elt.appendChild(newElt);
+```
+
+Avec le code ci-dessus, Nous venons de créer un nouvel élément de type  `div` , mais qui n'est pas encore rattaché au DOM. Nous avons ensuite récupéré l'élément ayant pour id  `main` . Enfin, nous avons ajouté notre nouvel élément dans les enfants de l'élément  `#main` .
+
+#### Supprimez et remplacez des éléments
+
+Il existe les fonctions  **`removeChild`**  et  **`replaceChild`** , afin de respectivement supprimer et remplacer un élément.
+
+- `parentNode.removeChild(<element>)`  prend en paramètre l'élément à supprimer du parent et retourne cet élément supprimer
+- `parentNode.replaceChild(<newElement>, <oldElement>)` prend en paramètres le nouvel élément ainsi que l'élément à remplacer, et retourne ce dernier(L'element qu'on a remplacer).
+Voici quelques exemples :
+
+```{JS}
+const newElt = document.createElement("div");
+let elt = document.getElementById("main");
+elt.appendChild(newElt);
+
+elt.removeChild(newElt);    // Supprime l'élément newElt de l'élément elt
+elt.replaceChild(document.createElement("article"), newElt);    // Remplace l'élément newElt par un nouvel élément de type article
+```
+
+### Écoutez des événements
