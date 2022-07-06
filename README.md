@@ -1818,4 +1818,123 @@ elt.removeChild(newElt);    // Supprime l'élément newElt de l'élément elt
 elt.replaceChild(document.createElement("article"), newElt);    // Remplace l'élément newElt par un nouvel élément de type article
 ```
 
-### Écoutez des événements
+### Les événements
+
+Un événement est une **réaction** à une **action** émise par l'utilisateur, comme le clic sur un bouton ou la saisie d'un texte dans un formulaire.
+Un événement en JavaScript est représenté par un
+
+- nom ( `click` ,  `mousemove` ...) et
+- une fonction que l'on nomme une  `callback`
+
+Un événement est par défaut _propagé,_ c'est-à-dire que si nous n'indiquons pas à l'événement que **nous le traitons**, il sera _transmis_ à l'élément _parent_, et ainsi de suite **jusqu'à l'élément racine**.
+
+Cette fonction  `callback` , c'est nous qui allons la spécifier. Elle sera appelée à chaque fois que l'action que l'on désire suivre est exécutée. Cela signifie que si l'on désire suivre le clic sur un élément, notre fonction sera appelée à chaque fois que l'utilisateur cliquera sur cet élément.
+
+#### Réagissez lors d'un clic sur un élément
+
+Afin de réagir lors d'un clic sur un élément, il faut écouter cet événement.
+Pour cela, nous avons à notre disposition la fonction   **`addEventListener()`** . Cette fonction nous permet d'écouter tous types d'événements (pas seulement le clic).
+Réagir à un événement, c'est faire une action lorsque celui-ci se déclenche. Écouter, c'est vouloir être averti quand l'événement se déclenche.
+`addEventListener(<event>, <callback>)`  prend en paramètres le nom de l'événement à écouter ([voici la liste des événements existants](https://developer.mozilla.org/fr/docs/Web/Events)), et la fonction à appeler dès que l'événement est détecter sur l'element cibler.
+Voyons un exemple avec l'événement "clic sur la souris".
+
+##### L'événement onclick
+
+Par exemple si on  veut detecter le clic sur un lien il faut d'abord recuperer ce lien, puis `element.addEventListener('click', onClickDetected);`  directement sur cet é lément.
+`onClickDetected`  correspond à la fonction que vous allez définir et qui sera appelée à chaque fois que l'utilisateur cliquera sur votre lien.
+C'est donc vous qui choisissez ce que vous souhaitez faire : récupérer des informations depuis un serveur, afficher un message,... etc.
+Il est possible de _désactiver_ le comportement par défaut d'un element quand on veut faire du traitement sans ces comportement par défaut par exemple:
+
+- En cliquant sur un element `<a>`  le navigateur va ouvrir le lien ou
+- si le clic se fait sur un bouton de validation de formulaire, celui-ci sera envoyé ou soumis.
+Mais avant, voyons un petit exemple :
+
+```{JS}
+const elt = document.getElementById('mon-lien');    // On récupère l'élément sur lequel on veut détecter le clic
+elt.addEventListener('click', function() {          // On écoute l'événement click
+    elt.innerHTML = "C'est cliqué !";               // On change le contenu de notre élément pour afficher "C'est cliqué !"
+    // la page va changer à cause du comportement par defaut d'un lien car dès que l'on clique sur un lien, le navigateur nous redirige sur la page vers laquelle il pointe. 
+});
+```
+
+###### preventDefault()
+
+Si on ne souhaite pas avoir ce comportement, afin de pouvoir faire autre chose à la place, comme afficher un message,on doit passer un parametre à la fonction `callback`, Celle qui est appelée lorsque l'utilisateur clique sur le lien ? Eh bien, en fait elle prend un paramètre.
+Ce parametre correspond au contenu de l'événement qui vient de se produire, et il nous met à disposition quelques fonctions et propriétés intéressantes et dans la liste de ces fonctions on a la fonction `preventDefault()` En appelant cette fonction dans votre callback, vous demandez au gestionnaire des événements de ne pas exécuter le comportement par défaut de votre élément.
+ Et cela marche aussi pour d'autres types d'éléments que le lien.
+Cette même fonction exécutée pendant un événement  onsubmit  sur un formulaire empêchera le formulaire de s'envoyer au serveur, par exemple.
+
+quand on clique sur le lien :
+
+```{JS}
+const elt = document.getElementById('mon-lien');    // On récupère l'élément sur lequel on veut détecter le clic
+elt.addEventListener('click', function(event) {     // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+    event.preventDefault();                         // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
+});
+```
+
+###### stopPropagation()
+
+e manière que  `preventDefault()` ,  `stopPropagation()`  est une fonction de l'objet que votre fonction reçoit en paramètre. Son rôle est par contre très différent, car il nous permet d'empêcher la propagation de l'événement vers son parent.
+En effet, lorsqu'un événement est déclenché, il est d'abord reçu par l'élément cible, mais il est ensuite remonté vers les éléments parents qui sont aussi dans la cible.
+Avec  `stopPropagation()` , vous pouvez ainsi empêcher que d'autres éléments reçoivent l'événement.
+
+Admettons par exemple que nous ayons un élément pour lequel nous voulons afficher un message lorsque l'on clique dessus. Mais à l'intérieur de cet élément, nous avons aussi un autre élément qui doit nous afficher un autre message lorsque l'on clique dessus.
+
+Par défaut, si nous cliquons dans l'élément intérieur, le message va s'afficher, puis notre élément parent va lui aussi recevoir l'événement du clic et encore changer le message. Pour éviter cela, nous devons stopper la propagation de l'événement.
+
+Ainsi, dans l'élément intérieur, nous ferons ceci :
+
+```{JS}
+elementInterieur.addEventListener('click', function(event) {
+    event.stopPropagation();
+    elementAvecMessage.innerHTML = "Message de l'élément intérieur";
+});
+```
+
+De cette manière, lorsque l'on clique sur l'élément intérieur, l'élément parent ne recevra plus le clic, et seul l'élément intérieur affichera son message. Par contre, en cliquant directement dans l'élément parent, sans être dans l'élément intérieur, l'élément parent recevra bien l'événement et affichera bien son message.
+
+### Récupérez des données utilisateurs avec les événements
+
+Pour recuperer les données utilisateurs il faut recuperer les données des évenement auxquels nous avont reagis,les données qu'un evenements nous fournit depend du type d'evenements ainsi lorsque l'evenement est detecter les données representerons des données specifique sur ce type d'evenement par exemple si c'est un evenement lier à la souris on pourra récuperer des données lier à la souris comme sa position, si c'est un evenement en lien avec le champ d'un formulaire alors ces données représenterons des informations sur ce champs comme par exemple le  champ qui a eté saisis
+
+On peut ainsi par exemple definir la position de la souris lorsque un utilisateur la bouge ou la maniere de recuperer du texte qu'un utilisateur est entrer de saisir.
+
+Lorsque l'on reçoit un événement, notre fonction `callback` reçoit un `paramètre` contenant des informations sur cet événement.
+Ces informations sont reçues sous la forme `d'un objet` qui dépendra du type d'événement reçu.
+De plus, chaque événement implémente l'objet  `Event` . C'est-à-dire que chaque événement a au minimum les mêmes fonctions et propriétés que l'objet  `Event` .
+Cela comprend entre autres :
+
+- `preventDefault()`  : empêche l'exécution du comportement par défaut de l'élément quand il reçoit l'événement ;
+
+- `stopPropagation()`  : empêche la propagation de l'événement vers d'autres éléments ;
+
+- _D'autres propriétés en fonction du type d'événement._
+
+#### Détectez le mouvement de la souris
+
+Afin de détecter le mouvement de la souris, il nous faut écouter l'événement  `mousemove`
+Cet événement nous fournit un objet de type  `MouseEvent` . C'est-à-dire que dès que la souris bouge, notre fonction callback sera appelée avec un paramètre de type  `MouseEvent` , qui contient les données sur le mouvement de la souris.
+
+Voici, entre autres, ce que cet objet nous permet de récupérer :
+
+- `clientX`  /  `clientY`  : position de la souris dans les coordonnées locales (contenu du DOM) ;
+- `offsetX`  /  `offsetY`  : position de la souris par rapport à l'élément sur lequel on écoute l'événement ;
+- `pageX`  /  `pageY`  : position de la souris par rapport au document entier ;
+- `screenX`  /  `screenY`  : position de la souris par rapport à la fenêtre du navigateur ;
+- `movementX`  /  `movementY`  : position de la souris par rapport à la position de la souris lors du dernier événement  `mousemove`
+Voici un exemple illustrant tout ça :
+
+```{JS}
+elt.addEventListener('mousemove', function(event) {
+    const x = event.offsetX; // Coordonnée X de la souris dans l'élément
+    const y = event.offsetY; // Coordonnée Y de la souris dans l'élément
+});
+```
+
+#### Lisez le contenu d'un champ texte
+
+Avec les evenements `change, input, focus, blur,...` on peut recuperer les données utilisateurs sur un elements d'un formulaire.
+On peut voir que c'est sont des événements qui fonctionnent avec les éléments de type  `<input>` ,  `<select>`  et  `<textarea>`, ces événements fonctionnent aussi pour les cases à cocher (  `checkbox`  ) et les cases à choix unique (  `radio`  ).
+
+Avec la documentation on apprend que pour récupérer la valeur de notre champ une fois qu'il a été modifié ou que l'evenement aie eté detecter, il suffit d'accéder à la valeur de l'élément cible avec:  `event.target.value` c'est-à-dire un champ de type  `<input>`  dans notre cas. Or, ce type d'élément contient une propriété  `value`  qui permet de récupérer ou définir la valeur du champ. C'est aussi simple que ça !
