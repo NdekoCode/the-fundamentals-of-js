@@ -1938,3 +1938,77 @@ Avec les evenements `change, input, focus, blur,...` on peut recuperer les donn�
 On peut voir que c'est sont des événements qui fonctionnent avec les éléments de type  `<input>` ,  `<select>`  et  `<textarea>`, ces événements fonctionnent aussi pour les cases à cocher (  `checkbox`  ) et les cases à choix unique (  `radio`  ).
 
 Avec la documentation on apprend que pour récupérer la valeur de notre champ une fois qu'il a été modifié ou que l'evenement aie eté detecter, il suffit d'accéder à la valeur de l'élément cible avec:  `event.target.value` c'est-à-dire un champ de type  `<input>`  dans notre cas. Or, ce type d'élément contient une propriété  `value`  qui permet de récupérer ou définir la valeur du champ. C'est aussi simple que ça !
+
+### API et un service web
+
+Un service Web est un programme sur internet  qui repond à des demandes appelé **requetes** et fournissant un service(des informations, des données,...), les requetes doivent respecter un protocole , il existe plusieurs type de protocole à fin de communiquer avec differents type de services.
+
+- **SMTP**: Pour envoyer des emails
+- **FTP**: Pour transferer des fichiers
+- **HTTP**: POur discuter ou communiquer avec un service Web
+- **...**
+
+. N’importe quel site sur lequel vous naviguez est un service web, et  peut fournit une API pour communiquer avec.
+Le but d’un service web est donc de fournir un service à celui qui le demande. Et pour ce faire, il met à disposition une API.
+
+ Ici nous allons nous interesser au protocole `HTTP` car elle permet de communiquer avec un site Web, il va charger des pages HTML, des styles CSS et d'autres ressources nécessaire à votre site Web mais ce protocole va surtout envoyer et recuperer des données depuis ou vers un serveur.
+
+#### Qu'est-ce que le protocole HTTP ?
+
+**_HTTP_** signifie _HyperText Transfer Protocol._ C'est un protocole qui permet de **communiquer** avec un site Internet. Il va permettre de charger des **pages HTML**, des **styles CSS**, des **polices de caractères**, des **images**, etc. Mais ce n'est pas tout, le protocole HTTP  nous permet aussi d'envoyer des formulaires et de récupérer et d'envoyer toutes sortes de données depuis ou vers un serveur implémentant ce protocole grâce à son API !
+Grâce à lui, nous allons pouvoir récupérer et sauvegarder des données sur un service web, ce qui nous permettra de dynamiser le contenu de nos pages web.
+ Il faut savoir que plusieurs informations se trouvent dans une requête HTTP :
+
+- **La méthode**. Il s’agit de l’action que l’on souhaite faire : récupérer une ressource, la supprimer, etc… Voici les méthodes HTTP les plus courantes :
+
+  - **GET** : permet de **récupérer** des ressources, comme par exemple le temps actuel sur un service de météo ;
+
+  - **POST** : permet de **créer** ou **modifier** une ressource, comme la création d'un nouvel utilisateur sur votre application ;
+
+  - **PUT** : permet de **modifier** une ressource, comme le nom de l'utilisateur que vous venez de créer avec _POST_ ;
+
+  - **DELETE** : Permet de **supprimer** une ressource, comme un commentaire dans un fil de discussion.
+
+- **L’URL**. C’est l’adresse sur le service web que vous souhaitez atteindre. Un peu comme un identifiant unique afin que le web service comprenne ce que vous voulez
+- **Les données**. Lorsqu’on fait une requête pour enregistrer des données (par exemple un formulaire) il faut pouvoir envoyer ces données au service web.
+
+Une fois votre requête envoyée et traitée par le service web, celui-ci va vous répondre avec, entre autres, les informations suivantes :
+
+- **Les données**. Les données que vous avez demandées : une page HTML, etc…
+
+- **Le code HTTP**. Il s’agit d’un code numérique qui vous indique comment s’est déroulée la requête. Voici les plus courants :
+
+  - **200** : indique que tout s’est bien passé
+  - **400** : indique que votre requête n’est pas conforme à ce qui est attendu
+  - **401** : indique que vous devez être authentifié pour faire cette requête
+  - **403** : indique que vous êtes bien authentifié mais que vous n’êtes pas autorisé à faire cette requête
+  - **404** : indique que la ressource demandée n’existe pas
+  - **500** : indique une erreur avec le service Web
+
+Pour faire une syntheres:
+ Lors d'une communication avec un service Web celui vous enverra en plus des donnée demander **Un code de status** celui-ci va vous permettre de savoir si tous s'est bien passer ou mal passer ainsi les codes:
+
+- **`200 à 299`**: Indique que la requete s'est bien derouler
+- **`300 à 399`**: Inquique que le contenu à été deplacer ou n'est plus accessible directement
+- **`400 à 499`**: Sont des code d'erreurs lier à une mauvais utilisation du service web, il peut s'agir d'une ressource innexistante ou de la nécessité de s'authentifier
+- **`500 et plus`**: Sont des codes d'erreurs du service Web ils indique generalement qu'il faudra rettenter sa chance plus tard.
+
+Lorsque vous effectuer une requete HTTP vous pouvez avoir besoin de **`demander`** ou **`d'envoyer`** une ressource, d'en **`supprimer`** ou d'en **`créer`**
+Par exemple: Envoyer un formulaire
+Pour cela il existe differente methode HTTP
+
+- **`GET`** : Va récupérer des ressources
+- **`POST`**: Va permettre de créer ou de modifier des ressources
+- **`PUT`** : Va modifier une ressource
+- **`DELETE`**: va supprimer une ressource
+
+#### Qu’est-ce qu’une API ?
+
+Une API, ou _Application Programming Interface_, est une interface de communication. Il en existe différents types, mais celle qui nous intéresse est celle qui permet de communiquer avec les services web.
+Une `API` est une interface mettant à disposition des points d'accès vers les ressources de l'application
+L’API correspond à l’ensemble des demandes que l’on peut faire à un service web. Ces demandes sont appelées des **requêtes**.
+Les **requêtes** sont des données qui respectent le protocole de communication et qui sont envoyées au serveur.
+Nous avons donc un protocole pour l'envoi de mail (_SMTP_), la réception de mail (_IMAP_), les requêtes liées à des ressources web (_HTTP),_ aux transferts de fichiers (_FTP_), etc.
+
+Par exemple, demander la météo actuelle est une requête. Faire une demande d’ami sur un réseau social est une requête. Ou encore, envoyer un message via une application de messagerie est une requête.
+En bref ce qu'il faut retenir est Qu’une API est une interface de communication entre un service web et le navigateur;
