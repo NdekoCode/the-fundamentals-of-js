@@ -1,0 +1,1 @@
+{"version":3,"file":"script-compiled.js","names":["variable","str","console","log"],"sources":["babel.js"],"sourcesContent":["const variable = 5;\nlet str = \"LOl World\";\nconsole.log(variable);\n"],"mappings":"AAAA,MAAMA,QAAQ,GAAG,CAAjB;AACA,IAAIC,GAAG,GAAG,WAAV;AACAC,OAAO,CAACC,GAAR,CAAYH,QAAZ"}

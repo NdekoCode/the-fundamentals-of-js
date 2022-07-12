@@ -1,0 +1,25 @@
+{
+  "name": "the-fundamentals-of",
+  "version": "1.0.0",
+  "description": "Variable",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx babel babel.js --out-file script-compiled.js --source-maps --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NdekoCode/the-fundamentals-of-js.git"
+  },
+  "keywords": [],
+  "author": "ndekocode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NdekoCode/the-fundamentals-of-js/issues"
+  },
+  "homepage": "https://github.com/NdekoCode/the-fundamentals-of-js#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.18.6",
+    "@babel/core": "^7.18.6"
+  }
+}
