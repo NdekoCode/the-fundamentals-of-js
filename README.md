@@ -2216,3 +2216,140 @@ Lorsque l'on exécutait la fonction   `fetch()`   lors d'une requête HTTP, c
 
 `_fetch()_`retourne une _Promise_ qui est une autre façon de faire de l’asynchrone car les fonctions`_then()_`et`_catch()_`sont appelées plus tard lorsque le travail est terminé.
 Et de la même manière, tout ce qui touche à l'I/O peut être exécuté de manière asynchrone. Et c'est tant mieux, car leur exécution peut prendre du temps. 😎
+La fonction asynchrone nous `Promet`(Promise) de nous renvoyer un resultat, ce resultat peut etre positif ou négatif, ainsi on va pouvoir coder comme si on avait déjà ce resultat mais ce code ne sera executer qu'une fois le resultat connus.
+Le deux mot  clé `Async` et `Await` nous permettent de gerer l'asynchrone plus facilement
+
+#### Gérez du code asynchrone
+
+Comment on peut exécuter du code asynchrone et renvoyer le résultat que l'on souhaite à celui qui a lancé le code.
+
+##### Callback
+
+Une _**callback**_ est une fonction qui va etre appelée “plus tard” ;
+C'est simplement une fonction que vous définissez. Le principe de la callback  est de la **passer en paramètre** d'_une fonction asynchrone_. Une fois que la fonction asynchrone a _fini sa tâche_, elle va appeler notre fonction _callback_ en lui passant un **résultat**.
+Ainsi, le code que nous mettons dans notre fonction callback sera exécuté de manière asynchrone.
+Les **événements**  sont un exemple typique de fonction asynchrone à laquelle on passe une fonction _callback_.
+
+```{JS}
+element.addEventListener('click', function(e) {
+    // Do something here ... 
+});
+```
+
+Dans l'exemple ci-dessus, la fonction qui est envoyée à  `addEventListener`  est une callback. Elle n'est pas appelée tout de suite, elle est appelée plus tard, dès que l'utilisateur clique sur l'élément. Ça ne bloque donc pas l'exécution du code et c'est donc asynchrone.
+Les callbacks sont la **base de l'asynchrone** en JavaScript et sont très utilisées.
+Les callbacks sont faciles à comprendre et à utiliser, mais elles souffrent d'un gros problème de lisibilité du code, via ce qu'on appelle le _callback hell_.
+On se retrouve régulièrement dans des situations où on va imbriquer plusieurs couches de callbacks , rendant le code difficile à lire et pouvant générer des erreurs.
+
+```{JS}
+elt.addEventListener('click', function(e) {
+    mysql.connect(function(err) {
+        mysql.query(sql, function(err, result) {
+            fs.readFile(filePath, function(err, data) {
+                mysql.query(sql, function(err, result) {
+                    // etc ...
+                });
+            });
+        });
+    }); 
+});
+```
+
+##### Gérez des erreurs callbacks
+
+Pour gérer les erreurs avec les callbacks, la méthode la plus utilisée est de prendre **2 paramètres** dans notre callback.
+
+- Le 2e paramètre est notre donnée et
+- le 1er est l'erreur. Si elle n'est pas _**null**_ ou _**undefined**_,  elle contiendra _un message d'erreur indiquant qu'une erreur est intervenue_.
+
+Si on reprend un exemple comme la lecture d'un fichier avec le module  `fs`  peut nous retourner une erreur :
+
+```{JS}
+fs.readFile(filePath, function(err, data) {
+    if (err) {
+        throw err;
+    }
+    // Do something with "data"
+});
+```
+
+##### Promise
+
+Les _**promise**_, sont un peu plus complexes mais bien plus puissantes et faciles à lire que les callbacks.
+Lorsque l'on exécute du code asynchrone, celui-ci va immédiatement nous retourner une "_**promise**_" pour nous promettre qu'un résultat nous sera envoyé prochainement.
+Cette promesse est en fait un objet `Promise` qui peut être  `resolve`  avec un résultat, ou  `reject`  avec une erreur.
+Lorsque l'on récupère une  `Promise` , on peut utiliser sa fonction  `then()`  pour exécuter du code dès que la promesse **est résolue**, et sa fonction  `catch()`  pour exécuter du code dès qu'**une erreur est survenue.**
+
+Voyons avec un exemple concret pour mieux comprendre :
+
+```{JS}
+functionThatReturnsAPromise()
+    .then(function(data) {
+        // Do somthing with data 
+    })
+    .catch(function(err) {
+        // Do something with error
+    });
+```
+
+`functionThatReturnsAPromise`  nous renvoie une  `Promise` . On peut donc utiliser sa fonction  `then()`  en lui passant une fonction qui sera exécutée dès qu'un résultat sera reçu (avec le résultat en question passé à notre fonction). On peut aussi utiliser sa fonction  `catch()`  en lui passant une fonction qui sera exécutée si une erreur est survenue (avec l'erreur en question passée à notre fonction).
+
+Le gros avantage est que l'on peut aussi **chaîner** les  `Promise`. Ainsi, la valeur que l'on retourne dans la fonction que l'on passe à   `then()`  est transformée en une nouvelle  `Promise`  résolue, que l'on peut utiliser avec une nouvelle fonction  `then()` . Si notre fonction retourne par contre une exception, alors une nouvelle  `Promise`  rejetée est créée et on peut l'intercepter avec la fonction  `catch()` . Mais si la fonction que l'on a passée à  `catch()`  retourne une nouvelle valeur, alors on a à nouveau une  `Promise`  résolue que l'on peut utiliser avec une fonction  `then()` , etc.
+
+Voici un exemple qui vous montre comment on peut profiter des  `Promise`  pour chaîner notre code asynchrone :
+
+```{JS}
+returnAPromiseWithNumber2()
+    .then(function(data) { // Data is 2
+        return data + 1;
+    })
+    .then(function(data) { // Data is 3
+        throw new Error('error');
+    })
+    .then(function(data) {
+        // Not executed  
+    })
+    .catch(function(err) {
+        return 5;
+    })
+    .then(function(data) { // Data is 5
+        // Do something
+    });
+```
+
+Dans l'exemple ci-dessus, la fonction  `returnAPromiseWithNumber2`  nous renvoie une  `Promise`qui va être résolue avec le nombre  `2`.
+
+- La première fonction  `then()`  va récupérer cette valeur.
+
+- Puis, dans cette fonction on retourne  `2 + 1` , ce qui crée une nouvelle  `Promise`  qui est immédiatement résolue avec  `3` .
+
+- Puis, dans le  `then()`  suivant, nous retournons une erreur.
+
+De ce fait, le   `then()`   qui suit ne sera pas appelé et c'est le   `catch()`   suivant qui va être appelé avec l'erreur en question. Lui-même retourne une nouvelle valeur qui est transformée en Promise  qui est immédiatement résolue avec la valeur `5`  . Le dernier  `then()`  va être exécuté avec cette valeur.
+
+#### Async/await
+
+`async`  et  `await`  sont 2 nouveaux mots clés qui permettent de gérer le code asynchrone de manière beaucoup plus intuitive, en bloquant l'exécution d'un code asynchrone jusqu'à ce qu'il retourne un résultat
+
+```{JS}
+async function fonctionAsynchrone1() {/*code asynchrone*/}
+async function fonctionAsynchrone2() {/*code asynchrone*/}
+
+async function fonctionAsynchrone3() {
+ const value1 = await fonctionAsynchrone1();
+ const value2 = await fonctionAsynchrone2();
+ return value1 + value2;
+}
+```
+
+Dans cet exemple, nous avons un total de 3 fonction asynchrones :  `fonctionAsynchrone1` ,  `fonctionAsynchrone2` ,  `fonctionAsynchrone3` . Quand on utilise  `async`  et  `await` , une fonction asynchrone doit avoir le mot clé  `async`  avant la fonction. Ensuite, dans le code, nous pouvons faire appel à des fonctions asynchrones et attendre leur résultat grâce au mot clé  `await`  que l'on met devant l'appel de la fonction.
+Attention: `async`  /  `await`  utilisent les Promise en arrière-plan, il est donc possible d'utiliser les 2 en même temps.
+async / await utilisant les Promise, la levée d'une erreur se fait aussi par une **exception**.
+Pour intercepter cette erreur, par contre, il suffit d'exécuter notre code asynchrone dans un bloc  `try {} catch (e) {}` , l'erreur étant envoyée dans le `catch`.
+ En resumer on a:
+
+- Qu'une callback est une fonction appelée “plus tard” ;
+- Que les `Promise`  sont des objets qui nous fournissent les fonctions`_then()_`et`_catch()_`pour gérer le code asynchrone ;
+- Que`async`  et   `await`  permettent de faire de l’asynchrone avec une syntaxes plus naturelle, et qu’ils utilisent en arrière plan les _Promise._
+
+_Nous connaissons maintenant 3 techniques pour faire du code asynchrone et pouvoir utiliser sa valeur ; voyons maintenant comment ça peut nous servir dans le cas de plusieurs requêtes HTTP !_
