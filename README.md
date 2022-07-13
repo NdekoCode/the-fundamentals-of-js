@@ -2012,3 +2012,87 @@ Nous avons donc un protocole pour l'envoi de mail (_SMTP_), la réception de mai
 
 Par exemple, demander la météo actuelle est une requête. Faire une demande d’ami sur un réseau social est une requête. Ou encore, envoyer un message via une application de messagerie est une requête.
 En bref ce qu'il faut retenir est Qu’une API est une interface de communication entre un service web et le navigateur;
+
+#### Qu'est-ce que Fetch
+
+`Fetch` est un ensemble d'objets et de fonctions mis à disposition par le langage JavaScript, afin d'exécuter des requêtes HTTP de manière asynchrone. `Fetch` va nous renvoyer une Promise. L’API Fetch va nous permettre d'exécuter des requêtes HTTP sans avoir besoin de recharger la page du navigateur. Cela permet d':
+
+- **Avoir un site plus réactif** car on n'a pas besoin de recharger toute la page dès qu'on a besoin de mettre à jour une partie du contenu ;
+
+- **Améliorer l'expérience utilisateur** avec du nouveau contenu qui se charge au fur et à mesure qu'on le découvre, par exemple. `fetch` s'utilise comme suit: `fetch("http://url-service-web.com/api/users");` Ce code nous permet d'envoyer une requête HTTP de type _GET_ au service web se trouvant à l'adresse  `http://url-service-web.com/api/users` Un service web peut choisir le format qu'il veut pour nous renvoyer des données, mais le plus courant et le plus simple est le **format _JSON_**. JSON signifie JavaScript Object Notation. Il s'agit d'un format textuel (contrairement à un format binaire plus léger mais impossible à lire à l'œil humain), se rapprochant en termes de syntaxe de celui des objets dans le langage JavaScript.
+
+Exemple d'un objet Javascript:
+
+```
+const obj = {
+    name: "Mon contenu",
+    id: 1234,
+    message: "Voici mon contenu",
+    author: {
+        name: "John"
+    },
+    comments: [
+        {
+            id: 45,
+            message: "Commentaire 1"
+        },
+        {
+            id: 46,
+            message: "Commentaire 2"
+        }
+    ]
+};
+```
+
+sera retranscrit ainsi en JSON :
+
+```
+{
+    "name": "Mon contenu",
+    "id": 1234,
+    "message": "Voici mon contenu",
+    "author": {
+        "name": "John"
+    },
+    "comments": [
+        {
+            "id": 45,
+            "message": "Commentaire 1"
+        },
+        {
+            id: 46,
+            "message": "Commentaire 2"
+        }
+    ]
+}
+```
+
+En JavaScript, votre objet est assigné à une variable, alors qu'en JSON on ne fait que décrire une structure.
+
+Avantage du format JSON:
+
+- Le gros avantage de ce format lorsqu'il est utilisé avec le langage JavaScript est qu'il n'y a pas besoin de le parser comme on le ferait avec du XML
+- Le deuxième avantage de ce format est sa légèreté par rapport à un format comme le XML
+
+L'utilisation de `fetch` pour envoyer ou recuperer des données via un service Web nous renvoie une `Promise`. la `Promise` est un objet qui fournit une fonction then qui sera exécutée quand le résultat aura été obtenu, et une fonction catch qui sera appelée s’il y a une erreur qui est survenue lors de la requête
+
+Exemple d'utilisation de `fetch`:
+
+```
+fetch(“https://mockbin.com/request”)
+  .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then(function(value) {
+    console.log(value);
+  })
+  .catch(function(err) {
+    // Une erreur est survenue
+  });
+```
+
+Vous pouvez voir dans l'exemple ci-dessus que l'URL passée à la fonction`fetch()` a changé et correspond à l’URL de notre service web. Le type de requête est GET (ce qui est le cas par défaut avec _Fetch_) car nous voulons récupérer les données.
+
+Ensuite nous appelons la fonction`_then()_`pour récupérer le résultat de la requête au format _json_ en ayant vérifié au préalable que la requête s’était bien passée avec _res.ok._ Ce résultat _json_ étant lui aussi une _Promise_, nous le retournons et récupérons sa vraie valeur dans la fonction _then()_ suivante.
