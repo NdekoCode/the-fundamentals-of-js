@@ -2023,7 +2023,7 @@ En bref ce qu'il faut retenir est Qu’une API est une interface de communicatio
 
 Exemple d'un objet Javascript:
 
-```
+```{JS}
 const obj = {
     name: "Mon contenu",
     id: 1234,
@@ -2046,7 +2046,7 @@ const obj = {
 
 sera retranscrit ainsi en JSON :
 
-```
+```{JS}
 {
     "name": "Mon contenu",
     "id": 1234,
@@ -2078,7 +2078,7 @@ L'utilisation de `fetch` pour envoyer ou recuperer des données via un service W
 
 Exemple d'utilisation de `fetch`:
 
-```
+```{JS}
 fetch(“https://mockbin.com/request”)
   .then(function(res) {
     if (res.ok) {
@@ -2119,3 +2119,49 @@ myInput.addEventListener('input', function(e) {
     }
 });
 ```
+
+### Sauvegardez des données sur le service web
+
+C'est possible d'envoyer des données au service web en les ajoutant à notre requête !
+
+Cependant, cela ne se fait pas avec toutes les méthodes (qu'on appelle aussi des _verbs_) HTTP_._  En effet, la méthode **GET** est  seulement faite pour récupérer des données, alors que des méthodes comme **POST** et **PUT** sont faites pour en envoyer et en recevoir.
+Le fonctionnement d'un verb à l'autre est très similaire. Avec les verbs **POST** et **PUT**, nous allons simplement ajouter des données dans le corps de notre requête.
+
+#### Envoyez des données avec une requête POST
+
+Pour envoyer des données à un service web avec la méthode **POST** via AJAX, nous allons devoir passer par la méthode   `send()`   en lui passant en paramètres les données à envoyer.
+
+```{JS}
+fetch("http://url-service-web.com/api/users", {
+
+method: “POST”,
+
+headers: {
+
+'Accept': 'application/json',
+
+'Content-Type': 'application/json'
+
+},
+
+body: JSON.stringify(jsonBody)
+
+});
+```
+
+Étant donné que l'on souhaite **envoyer du JSON** à notre service web, nous avons d'abord besoin de transformer notre objet JavaScript en JSON
+Pour faire cette transformation, nous utilisons la fonction   `JSON.stringify(json)`
+
+il faut alors le prévenir qu'il va **recevoir du JSON**. Cela se fait grâce à des **headers**, qui sont des en-têtes envoyés en même temps que la requête pour donner plus d'informations sur celle-ci. Les headers en question sont  :
+
+- `Content-Type`, avec la valeur  application/json,
+
+- `Accept`, avec la valeur application/json .
+
+Ces options sont envoyées avec la requête grâce au second paramètre de la fonction _fetch()_. Ce paramètre est un objet qui permet de définir :
+
+- la **méthode HTTP**, le **body**, c’est à dire les données qu’on souhaite envoyer,
+
+- les **headers** qui donnent un peu plus d’information sur notre requête.
+
+ _PUT_ fonctionne exactement de la même manière que _POST_.
