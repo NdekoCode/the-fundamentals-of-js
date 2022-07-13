@@ -2162,6 +2162,57 @@ Ces options sont envoyées avec la requête grâce au second paramètre de la fo
 
 - la **méthode HTTP**, le **body**, c’est à dire les données qu’on souhaite envoyer,
 
-- les **headers** qui donnent un peu plus d’information sur notre requête.
+- les **headers** sont les en-tete de la requete et qui donnent un peu plus d’information sur notre requête.
 
  _PUT_ fonctionne exactement de la même manière que _POST_.
+
+### Comprenez comment fonctionne l'asynchrone en JS
+
+Javascript est `Synchrone` mais il gère l'`Asynchrone`.
+Javascript est `Synchrone` car il n'a qu'un seul thread tout simplement qu'il n'y a qu'**un seul fil d'exécution** du code source. on dit qu'il est `Mono-thread` càd qu'il ne peut executer qu'une seule chose à la fois, Cela signifie que lorsque vous executer du code Javascript chacune sera executer l'une après l'autre en attendant la fin de l'execution de la ligne precedente, il n'y a pas d'autres ligne de code qui pourrait etre executer en parallèle car Il ne peut faire qu'une seule chose à la fois.
+Il est possible et même très facile de faire de l'`asynchrone` en JavaScript, mais l'`exécution restera synchrone.`
+L'`Event Loop` permet de contourner cette partie asynchrone de Javascript, il peut etre vus comme une grosse liste d'attente qui va executer toutes les fonctions qui lui sont envoyer les unes après les autres, avec l'`Event Loop` chaque fonction est toujours executer de façon synchrone mais il est possible de demander à executer le code de maniere synchrone ainsi lorsque l'on demande à executer une fonction de maniere asynchrone celle-ci est mise dans une fil d'attente et va attendre son tour pour etre executer, le code n'est donc pas executer en parallèle mais il est programmer pour etre executer à un autre moment,
+ Certaines fonctions sont faite pour demander que l'on execute du code de façon asynchrone.
+
+Pour essayer de clarifier tout ça disons que:
+Si du code **synchrone** est du code qui s'exécute ligne après ligne en attendant la **fin de l'exécution** de la ligne précédente, alors on peut facilement en déduire que du code **asynchrone** va s'exécuter ligne après ligne, mais la ligne suivante **n'attendra pas** que la ligne asynchrone ait fini son exécution.
+
+#### L'event loop
+
+En JavaScript, chaque ligne de code est exécutée de façon synchrone, mais il est possible de demander à exécuter du code de manière asynchrone. Et lorsque l'on demande à exécuter une fonction de façon asynchrone, la fonction en question est placée dans une sorte de **file d'attente** qui va exécuter toutes les fonctions qu'elle contient les unes après les autres. C'est ce qu'on appelle l'_**event loop**._ Tout le cœur du langage fonctionne autour de ça.
+Ainsi, le code n'est pas réellement exécuté en parallèle car il est mis en file d'attente, mais il ne bloque pas l'exécution du code depuis lequel il a été appelé.
+
+##### La fonction setTimeout
+
+`setTimeout`  est la fonction **la plus répandue** lorsque l'on veut exécuter du code asynchrone sans bloquer le fil d'exécution en cours. Cette fonction prend 2 paramètres :
+
+- La **fonction à exécuter** de manière asynchrone (qui sera donc ajoutée à la file d'attente de l'event loop)
+- Le **délai**, en millisecondes, avant d'exécuter cette fonction.
+
+```{JS}
+setTimeout(function() {
+    console.log("I'm here!")
+}, 5000);
+
+console.log("Where are you?");
+```
+
+La fonction  `setTimeout`  nous retourne une valeur permettant d'identifier le code asynchrone que l'on veut exécuter. Il est possible de passer cet identifiant en paramètre à la fonction  `clearTimeout` , si vous souhaitez annuler l'exécution asynchrone de la fonction avant qu'elle ne soit exécutée
+
+##### Les autres méthodes
+
+Il existe d'autres méthodes un peu moins répandues, voire très peu utilisées :
+
+- `setInterval`: elle fonctionne exactement comme  `setTimeout` , à peu près, elle exécute la fonction passée en paramètre **en boucle** à une **fréquence déterminée** par le temps en millisecondes passé en second paramètre. Il suffira de passer la valeur de retour de  `setInterval`  à  `clearInterval`  pour **stopper** l'exécution en boucle de la fonction
+- `setImmediate` : Cette fonction prend en seul paramètre _la fonction à exécuter de façon synchrone_.  La fonction en question sera placée dans la **file d'attente** de l'event loop, mais va **passer devant** toutes les autres fonctions, sauf certaines spécifiques au Javascript :
+  - `les événements` ( qui sont donc exécutés eux-aussi de façon asynchrone  😉),
+  - `le rendu HTML` aussi  et l'`I/O(Input/Output)`.
+  - Il existe aussi  `nextTick` , qui permet, là, de court-circuiter tout le monde. À utiliser avec précaution
+
+##### Le cas de l'I/O
+
+L'I/O correspond aux événements liés à l'_**input**_(les flux d'entrée) et l'_**output**_(les flux de sortie). Cela correspond notamment à la lecture/écriture des fichiers, aux requêtes HTTP
+Lorsque l'on exécutait la fonction   `fetch()`   lors d'une requête HTTP, celle-ci ne bloquait pas l'exécution du code. On n'attend pas que la requête soit envoyée et une réponse reçue avant d'exécuter le reste du code. C'est donc une **fonction asynchrone**.
+
+`_fetch()_`retourne une _Promise_ qui est une autre façon de faire de l’asynchrone car les fonctions`_then()_`et`_catch()_`sont appelées plus tard lorsque le travail est terminé.
+Et de la même manière, tout ce qui touche à l'I/O peut être exécuté de manière asynchrone. Et c'est tant mieux, car leur exécution peut prendre du temps. 😎
