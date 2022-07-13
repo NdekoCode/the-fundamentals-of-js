@@ -2096,3 +2096,26 @@ fetch(“https://mockbin.com/request”)
 Vous pouvez voir dans l'exemple ci-dessus que l'URL passée à la fonction`fetch()` a changé et correspond à l’URL de notre service web. Le type de requête est GET (ce qui est le cas par défaut avec _Fetch_) car nous voulons récupérer les données.
 
 Ensuite nous appelons la fonction`_then()_`pour récupérer le résultat de la requête au format _json_ en ayant vérifié au préalable que la requête s’était bien passée avec _res.ok._ Ce résultat _json_ étant lui aussi une _Promise_, nous le retournons et récupérons sa vraie valeur dans la fonction _then()_ suivante.
+
+### Validez les données saisies par vos utilisateurs
+
+vant d'envoyer nos données à un service web, il est nécessaire de les valider.
+Géneralement les données que l'on souhaite envoyer à un service web viennent généralement de ce que l'utilisateur saisit dans un formulaire
+**Never trust user input!** Ne faites jamais confiance aux données saisies par vos utilisateurs !
+Certains de vos utilisateurs peuvent être malveillants ou ils peuvent ne pas bien comprendre ce que vous souhaitez qu'ils fassent
+
+#### Validez les données suite à des événements
+
+Afin de valider les données utilisateurs, vous pouvez vous aider des événements du _DOM_. Ainsi, vous pouvez écouter l'événement  `onChange`  pour vérifier la donnée, dès que l'utilisateur a fini de l'éditer. Ou bien vous pouvez écouter l'événement  `onInput`  pour vérifier la donnée à chaque nouveau caractère.
+Par exemple, vous pouvez vérifier que ce qui est saisi commence par `Hello` avec le code suivant :
+
+```{JS}
+myInput.addEventListener('input', function(e) {
+    var value = e.target.value;
+    if (value.startsWith('Hello ')) {
+        isValid = true;
+    } else {
+        isValid = false;
+    }
+});
+```
