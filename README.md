@@ -2134,3 +2134,19 @@ module.exports = {
 ```
 
 Ce fichier nous indique principalement que Webpack va se servir de notre  `./src/index.js`  comme **point d'entrée** de notre application et bundler notre code dans un fichier final :  `./dist/app.bundle.js` ( `[name]`  étant une **variable** qui sera remplacée ici par  `app` , car c'est le nom que l'on a indiqué pour notre fichier  `index.js` ).
+
+Avec notre fichier de configuration prêt, il ne nous reste plus qu'à **exécuter** Webpack. Pour cela, nous allons utiliser une des fonctionnalités de NPM : les commandes.
+
+Nous allons modifier le fichier  `package.json`  pour ajouter dans les  `"scripts": {....}`  la ligne suivante :
+
+```{JSON}
+"scripts": {
+    "test": "...",
+    "build": "webpack"
+}
+```
+
+Tout ce qui se trouve dans  `scripts`  peut être exécuté avec la commande  `npm run <script_name>` . Ainsi, nous pouvons exécuter  `npm run build`  qui va exécuter la commande  `webpack` .
+Nous pouvons donc compiler un projet avec :
+
+`npm run build`

@@ -1,4 +1,4 @@
-import retrieveContent from "./src/query.js";
+import retrieveContent from "./query.js";
 
 async function showContent() {
   try {
