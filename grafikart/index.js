@@ -15,3 +15,5 @@ if (age <= 13) {
 } else {
   alert("Suivez Devil Dead");
 }
+
+// Deux nombre
