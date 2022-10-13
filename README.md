@@ -7,7 +7,7 @@ Dans le JS moderne on declare une variable de deux maniere
 - avec le mot clé `const` suivis du nom de la variable ou
 - vec le mot clé `let` suivis du nom de la variable
 
-Une variable déclarée grâce à l'instruction `var` ou `let` sans valeur initiale définie vaudra `undefined`
+Une variable déclarée grâce à l'instruction `var` ou `let` sans valeur initiale définie vaudra `undefined`,`undefined` est different de null et different des autres types, il permet d'indiquer une abscence de valeur.
 
 ## Types de donnée
 
