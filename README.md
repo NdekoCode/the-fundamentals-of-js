@@ -467,6 +467,24 @@ résultat1 = parente(3)(5); // renvoie 8
 
 ```
 
+### Les callbacks
+
+Lorsque dans une fonction on a un paramètre qui est une fonction on appele cela un callback, en vraie lorsque un paramètre est une fonction que l'on va appeler suivant certaines situations, cette fonction là on l'appel un callback.
+
+```{JS}
+const isPair = (n,cb) =>{
+  if(n % 2 ===0){
+    funcVerif(n);
+  }
+}
+function funcVerif(number) {
+    console.log("Mon nombre "+number+" est pair");
+}
+// Dans ce context funcVerif joue le role de callback
+isPair(2,funcVerif(2))
+
+```
+
 ### Utiliser l'objet `arguments`
 
 Les arguments d'une fonction sont maintenus dans un objet semblable à un tableau. Dans une fonction, il est possible d'utiliser les arguments passés à la fonction de la façon suivante :
@@ -536,9 +554,9 @@ console.log(a3); // affiche [8, 6, 7, 9]
 // "a3" est equivalent à "a2" sauf que "a3" est une fonction fleché
 ```
 
-Avec les fonctions fleché il faut comprendre la notion de **`Pas de "this" distinct`** dans les fonctions classique de javascript càd qu'on déclare avec le mot clé `function`, dans ces fonctions `this` a comme valeur la valeur de `l'objet global` dans un environnement web dans ce cas `this` vaudra l'objet `window`.
+Avec les fonctions fleché il faut comprendre la notion de **`Pas de "this" distinct`** dans les fonctions classique de javascript càd qu'on déclare avec le mot clé `function`, dans ces fonctions `this` a comme valeur la valeur de `l'objet global` dans un environnement web dans ce cas `this` vaudra toujours l'objet `window`.
 Les fonctions fléchées n’ont pas leur propre valeur de `this`. La valeur de `this` à l’intérieur d’une fonction fléchée est toujours `héritée depuis la portée englobante`.
-Les fonctions fléchées capturent la valeur de `this` dans le contexte englobant.
+Les fonctions fléchées capturent la valeur de `this` dans le contexte englobant ce qui fait que c'est l'objet `WINDOW`
 
 ```{JS}
 function Personne(){
