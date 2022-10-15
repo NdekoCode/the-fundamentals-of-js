@@ -1,9 +1,10 @@
 /**
-* Streaming Videos:
+  * Streaming Videos:
+  * -  Lilo et steach(inferieur ou egal à 13ans)
+  * - Le film The Matrix(13 à 18ans)
+  * - Evil dead(18ans et plus)
 
-    -  Lilo et steach(inferieur ou egal à 13ans)
-    - Le film The Matrix(13 à 18ans)
-    - Evil dead(18ans et plus)
+
 */
 const year = 2022;
 const birthYear = parseInt(prompt("Entrer votre année de naissance !"));
