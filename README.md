@@ -638,7 +638,7 @@ Array.of(undefined); // [undefined]
 
 #### Les Méthodes des instances
 
-Les methodes des instances s'utilise sur les objets de type tableaux, pour les reconnaitre dans la documentation ils ont une syntaxe de type `prototype.NomDelaFonction`
+Les methodes des instances s'utilise sur les objets d'un type spécifique , comme par exemple le type, tableaux, pour les reconnaitre dans la documentation ils ont une syntaxe de type `prototype.NomDelaFonction`, ainsi par exemple pour  une chaines de caractère `const machaine = "Ma chaine"` on peut utiliser le `String.prototype.toUpperCase()` avec `machaine.toUpperCase()`
 Soit le tableau `let fruits = ['Apple', 'Banana'];`
 
 - **Ajouter à la fin du tableau**
