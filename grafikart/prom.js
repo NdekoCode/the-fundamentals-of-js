@@ -53,7 +53,7 @@ async function main() {
   try {
     const duration = await wait(2000);
     const durationFail = await waitAndFail(1000);
-    console.log(duration);
+    console.log(duration, durationFail);
   } catch (error) {
     console.log(error);
   }
@@ -83,7 +83,9 @@ Promise.allSettled([wait(2000), waitAndFail(1000)])
 function waitSync(duration) {
   const t = Date.now();
   // Tant que la date du jour moin quelque chose est inferieur à la date que j'ai specifier dans ce cas là je bloque mon scrip
-  while (Date.now() - t < duration) {}
+  while (Date.now() - t < duration) {
+    // Semathic
+  }
 }
 // On créer une Promise et on lui passe juste un resolve
 const prom = new Promise((r) => {
