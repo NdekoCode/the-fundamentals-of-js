@@ -27,4 +27,15 @@ function waitAndFail(duration) {
   .catch((err) => {
     console.log("Erreyr ", err);
   }); */
-wait(2000).then(console.log);
+wait(2000)
+  .then(() => {
+    console.log("Attente de 2s");
+    return wait(1000);
+  })
+  .then(() => {
+    console.log("Attente de 1s");
+    return waitAndFail(3000);
+  })
+  .catch((err) => {
+    console.log("Erreur dans l'attente de 3s");
+  });
