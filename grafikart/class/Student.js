@@ -4,7 +4,6 @@ export class Student {
   lastname;
   age;
   sexe;
-  constructor() {}
   canPass() {
     return moyenne(this.notes) >= 10;
   }
