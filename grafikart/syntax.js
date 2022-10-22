@@ -30,7 +30,7 @@ let maVar;
 maVar ??= 3;
 /* 
 Est equivalent au code au dessus
-if (a === undefined || a === null) {
+if (maVar === undefined || maVar === null) {
   a = 3;
 }
  */
@@ -39,6 +39,6 @@ let myChar;
 myChar ||= 5;
 /* 
 Est equivalent au code qui est ci-haut
-if (!a) {
+if (!myChar) {
   myChar = 5;
 } */
