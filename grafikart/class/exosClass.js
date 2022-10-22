@@ -1,6 +1,8 @@
 import Book from "./Book.js";
 import Library from "./Library.js";
-
+// Cette import asynchrone est assez recommander que dans le coté navigateur
+const { isPremice } = await import("./functions.js"); // Importation asynchrone, "isPremice" ne sera appeler que quand on aura besoin de lui et pas autrement
+console.log(isPremice());
 /* 
 
 const r = new Rectangle(10, 20);

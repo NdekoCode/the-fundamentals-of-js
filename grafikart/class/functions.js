@@ -4,7 +4,7 @@ const myNumber = Math.floor(Math.random()) * 10;
  * @param {Number} max
  * @returns
  */
-function getRandomInt(max) {
+export function getRandomInt(max) {
   return Math.floor(Math.random() * max + 1);
 }
 const solution = getRandomInt(10);
@@ -13,11 +13,11 @@ const solution = getRandomInt(10);
  * @param {*} n
  * @returns
  */
-function isRight(n) {
+export function isRight(n) {
   return solution === n;
 }
 console.log(solution);
-function guess() {
+export function guess() {
   const userNumber = parseInt(prompt("Entrer un nombre entre 0 et 10"));
   return isRight(userNumber);
 }
@@ -35,7 +35,7 @@ function guess() {
  * @param {Number} number
  * @returns
  */
-function isPremice(number) {
+export function isPremice(number) {
   if (number < 2) {
     // Ça c'est ce qu'on appel un early return, ça permet d'eviter d'executer du code inutilement dans la fonction
     return false;
