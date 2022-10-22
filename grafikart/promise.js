@@ -1,6 +1,4 @@
-const prm = new Promise((resolve, reject) => {
-  resolve(4);
-});
+const prm = Promise.resolve(4);
 // Quand on veut savoir si notre promise a été resolus ou pas on utilise le mot "then" quand il a été resolus et ,"catch" si il n'a pas été resolus meme principe que le Try Catch
 prm
   .then((_) => {
