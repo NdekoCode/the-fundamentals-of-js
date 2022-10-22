@@ -1,14 +1,31 @@
-export class Student {
+export default class Student {
+  static moyenne = 10;
   ecole;
   firstname;
   lastname;
-  age;
-  sexe;
-  canPass() {
-    return moyenne(this.notes) >= 10;
+  #age;
+  #sexe;
+  _notes;
+  constructor(firstname, lastname, age) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.#age = age;
   }
-}
-
-function moyenne(notes) {
-  return notes.reduce((acc, val) => acc + val) / notes.length;
+  get name() {
+    return `${this.firstname} ${this.lastname}`;
+  }
+  /**
+   * @param {Array} notes
+   */
+  set notes(notes) {
+    if (Array.isArray(notes)) {
+      this._notes = notes;
+    }
+  }
+  canPass() {
+    return this.moyenne() >= Student.moyenne;
+  }
+  moyenne() {
+    return this._notes.reduce((acc, val) => acc + val) / this._notes.length;
+  }
 }
