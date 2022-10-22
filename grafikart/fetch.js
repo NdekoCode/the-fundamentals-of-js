@@ -1,3 +1,7 @@
+/**
+ *
+ * @returns {Promise<{id:number, name:string,username: string,email:String, adress:{street:string,suite:string,city:string,zipcode:string, geo:{lat:string,lng:string}}}[]>}
+ */
 async function fetchUser() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users", {
     method: "GET",
@@ -8,9 +12,28 @@ async function fetchUser() {
   }
   throw Error("Impossible de récuperer les données du serveur");
 }
+/**
+ *
+ * @returns {Promise<{id:number,userId:number, title:string, body: string}[]>}
+ */
+async function fetchPost() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+    method: "GET",
+    "Content-Type": "application/json",
+  });
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw Error("Impossible de récuperer les données du serveur");
+  }
+}
 /* fetchUser()
   .then((data) => console.log(data))
   .catch((err) => console.log(err)); */
+/**
+ *
+ * @returns {Promise<Object>}
+ */
 async function addPost() {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
