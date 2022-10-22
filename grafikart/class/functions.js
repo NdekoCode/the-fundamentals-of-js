@@ -1,8 +1,8 @@
 const myNumber = Math.floor(Math.random()) * 10;
 /**
  * Permet de generer un chiffre aléatoire entre  0 et 10
- * @param {Number} max
- * @returns
+ * @param {number} max
+ * @returns {number}
  */
 export function getRandomInt(max) {
   return Math.floor(Math.random() * max + 1);
@@ -10,13 +10,17 @@ export function getRandomInt(max) {
 const solution = getRandomInt(10);
 /**
  * Permet de verifier si l'utilisateur a entrer une bonne valeur
- * @param {*} n
+ * @param {number|boolean} n
  * @returns
  */
 export function isRight(n) {
   return solution === n;
 }
 console.log(solution);
+/**
+ * @desc Permet de verifier la valeur taper par l'utilisateur et dire si il est correct
+ * @returns {boolean}
+ */
 export function guess() {
   const userNumber = parseInt(prompt("Entrer un nombre entre 0 et 10"));
   return isRight(userNumber);
@@ -33,7 +37,7 @@ export function guess() {
 /**
  * Verifie si un nombre est premier ou non
  * @param {Number} number
- * @returns
+ * @returns {boolean}
  */
 export function isPremice(number) {
   if (number < 2) {
@@ -50,7 +54,7 @@ export function isPremice(number) {
 console.log(isPremice(0));
 console.log(isPremice(1));
 console.log(isPremice(2));
-console.log(isPremice(3));
+console.log(isPremice());
 console.log(isPremice(4));
 console.log(isPremice(5));
 console.log(isPremice(6));
