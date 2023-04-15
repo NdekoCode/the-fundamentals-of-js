@@ -1,15 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Apprendre Javascript</title>
-</head>
+    <!-- "defer" : Charge le javascript quand tu as le temps, par contre n'execute le code que lorsque on est à la fin du chargement de la page, quelque chose qui est un type="module" fonctionne un peu comme un "defer" -->
+    <script src="./event.js" type="module"></script>
+    <style>
+      .important {
+        max-width: 50px;
+        aspect-ratio: 1/1;
+        background-color: gray;
+        padding: 50px;
+      }
+      .spoiler {
+        background-color: #000;
+        color: #000;
+        cursor: pointer;
+      }
+      .spoiler::selection {
+        background-color: rgba(0,0,0,0);
+      }
+    </style>
+  </head>
 
-<body>
-    <script src="./functions.js"></script>
-</body>
+  <body>
+    <div id="hello">
+      <div class="important">
+        <button class="btn">Red</button>
+      </div>
+      <button class="btn">Green</button>
+      <button class="btn">Yellow</button>
+    </div>
+    <form action="" class="simple-form">
+      <div>
+        <label for="email">Email : </label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div>
+        <label for="username">Username : </label>
+        <input type="text" name="username" id="username" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="true"
+        />
+      </div>
+      <div>
+        <label for="confpassword">Confirmer le mot de passe</label>
 
+        <input
+          type="password"
+          name="confpassword"
+          id="confpassword"
+          autocomplete="true"
+        />
+      </div>
+      <label for="sexe">Sexe:</label>
+<select name="sexe" id="sexe">
+  <option value="M">Male</option>
+  <option value="F">Femme</option>
+</select>
+    </div>
+      <div>
+        <label for="rpg">RPG</label>
+
+        <input type="checkbox" name="rpg" id="rpg" />
+      </div>
+      <button>Sign up</button>
+    </form>
+    <div>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt assumenda fugiat, nemo nam facere odio sint <span class="spoiler">ut cumque rem! Nobis ex cupiditate nemo fuga</span>, neque atque quia ratione eaque expedita. <span class="spoiler">dolor sit amet consectetur adipisicing elit.</span> dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+  </body>
 </html>
